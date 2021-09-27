@@ -37,3 +37,4 @@ jobs:
           server: ${{ secrets.HOSTING_SERVER }}
           username: ${{ secrets.HOSTING_LOGIN }}
           password: ${{ secrets.HOSTING_PASS }}
+          local-dir: './site/'
