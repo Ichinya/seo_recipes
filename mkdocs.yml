@@ -1,4 +1,8 @@
 site_name: СЕО книга
+site_url: https://seo.ichiblog.ru/
+repo_url: https://github.com/Ichinya/seo_book
+edit_uri: edit/main/docs/
+site_author: https://ichiblog.ru/
 theme:
   name: null
   custom_dir: theme/material
@@ -13,14 +17,22 @@ theme:
 
   # Default values, taken from mkdocs_theme.yml
   language: ru
+  locale: ru
   font:
     text: Roboto
     code: Roboto Mono
   favicon: assets/favicon.png
   icon:
     logo: logo
+    
+#extra_css:
+#    - css/extra.css
+#    - css/second_extra.css
 
 extra:
+  version: 2021.09.30
   analytics:
     provider: yandex
     property: 16055407
+    
+  
