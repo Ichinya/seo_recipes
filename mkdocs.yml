@@ -1,4 +1,4 @@
-site_name: Новый сайт
+site_name: СЕО книга
 theme:
   name: null
   custom_dir: theme/material
@@ -23,4 +23,4 @@ theme:
 extra:
   analytics:
     provider: yandex
-    property: 83722303
+    property: 16055407
