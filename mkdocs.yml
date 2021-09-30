@@ -1,12 +1,32 @@
 site_name: СЕО книга
 site_url: https://seo.ichiblog.ru/
 repo_url: https://github.com/Ichinya/seo_book
+repo_name: ichinya/seo_book
 edit_uri: edit/main/docs/
-site_author: https://ichiblog.ru/
+site_author: Ichi
+
 theme:
   name: null
   custom_dir: theme/material
-
+  highlightjs: true
+  icon:
+    repo: fontawesome/brands/git-alt  
+  palette:
+    scheme: slate
+    primary: indigo
+    
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.expand
+    - navigation.indexes
+    - search.suggest
+    - search.share
+    
+  plugins:
+    - search:
+       lang: ru
+    
   # 404 page
   static_templates:
     - 404.html
@@ -25,14 +45,47 @@ theme:
   icon:
     logo: logo
     
+nav:
+    - Главная: index.md
+    - Введение: begin/index.md
+    - Разработка сайта:
+        - Проектирование:
+            - Проектирование: proekt/index.md
+            - Семантическое ядро: proekt/semantic_core.md
+        - Backend сайта:
+            - Движок и плагины: backend/index.md
+        - Forntend сайта:
+            - Forntend сайта: frontend/index.md
+            - UI/UX: frontend/ui_ux.md
+    - Стратегии продвижения:
+        - Стратегии продвижения: case/index.md
+    - Параметры домена (пузомерки):
+        - Краткая информация: domen/index.md
+    - Поисковые системы:
+        - Поисковые системы: search/index.md
+        - Санкции ПС: search/a.md
+    - ПО и сервисы:
+        - ПО и сервисы: software/index.md
+        - Программы для компьютера: software/index.md
+        - Онлайн-сервисы:
+            - Онлайн-сервисы: online-services/index.md
+            - SEMRush: online-services/.md
+        - Плагины для браузера: browser_addons/index.md
+    - Работа с другим:
+        - Фриланс-биржы: freelance/index.md
+
 #extra_css:
 #    - css/extra.css
 #    - css/second_extra.css
 
 extra:
   version: 2021.09.30
+  generator: false  
   analytics:
     provider: yandex
     property: 16055407
-    
-  
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/squidfunk    
+      name: My Twitter
+copyright: Copyright &copy; 2021 - 2020 Martin Donath  
