@@ -30,6 +30,7 @@ theme:
   # 404 page
   static_templates:
     - 404.html
+    - .htaccess
 
   # Necessary for search to work properly
   include_search_page: false
