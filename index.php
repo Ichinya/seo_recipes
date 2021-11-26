@@ -9,6 +9,8 @@ define('BASE_DIR', dirname(realpath(__FILE__)) . DIRECTORY_SEPARATOR);
 
 // можно переопределить дальнейшие константы в файле config.php
 if (file_exists('config.php')) require 'config.php'; // custom config
+if (file_exists('dev.php')) require 'dev.php'; // dev config
+if (!defined('IS_DEV')) define('IS_DEV', false);
 
 // определяем http-протокол
 if (!defined('SITE_PROTOCOL')) {
@@ -40,5 +42,15 @@ if (defined('GENERATE_STATIC'))
     require SYS_DIR . 'generation.php';
 else
     require SYS_DIR . 'albireo.php';
+
+if (IS_DEV) {
+    ini_set('error_reporting', E_ALL & E_NOTICE);
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+} else {
+    ini_set('error_reporting', ~E_ALL);
+    ini_set('display_errors', 0);
+    ini_set('display_startup_errors', 0);
+}
 
 # end of file

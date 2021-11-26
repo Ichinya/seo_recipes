@@ -25,7 +25,7 @@ function a($slug, $anchor = null)
 {
     $pagesInfo = getVal('pagesInfo');
 
-    $title = '';
+    $title = null;
     $url = $slug;
 
     foreach ($pagesInfo as $page) {
@@ -35,7 +35,9 @@ function a($slug, $anchor = null)
             break;
         }
     }
-    $anchor = $anchor ?? $title;
+
+    $anchor = $anchor ?? $title ?? $slug;
+    $title = $title ?? $anchor ?? '';
 
     $a = '<a href="' . $url . '" title="' . $title . '" target="_blank">' . $anchor . '</a>';
     return $a;
