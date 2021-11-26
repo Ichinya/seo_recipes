@@ -1,4 +1,0 @@
-User-agent: *
-
-Sitemap: http://seo.ichiblog.ru/sitemap.xml
-Sitemap: http://seo.ichiblog.ru/sitemap.xml.gz

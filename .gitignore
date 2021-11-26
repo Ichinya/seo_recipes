@@ -1,2 +1,4 @@
-/.idea
-/site
+.idea
+/albireo/cache
+/albireo-data/admin
+.htaccess

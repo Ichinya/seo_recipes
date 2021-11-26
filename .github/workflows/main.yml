@@ -1,10 +1,10 @@
-name: update site
+name: Deploy
 
 on:
   push:
     branches: [ main ]
-#   pull_request:
-#     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
   workflow_dispatch:
 
@@ -14,17 +14,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
-      - run: pip install mkdocs
-      - run: mkdocs build
-      - run: cd site
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
           server: ${{ secrets.HOSTING_SERVER }}
           username: ${{ secrets.HOSTING_LOGIN }}
           password: ${{ secrets.HOSTING_PASS }}
-          local-dir: './site/'
+          local-dir: './'
