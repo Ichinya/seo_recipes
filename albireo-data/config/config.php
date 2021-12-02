@@ -5,21 +5,26 @@
 
 // конфигурация для обычного вывода страниц
 
-return [
-	// url-путь к assets
-	'assetsUrl' => SITE_URL . 'assets/',
+$config = [
+    // url-путь к assets
+    'assetsUrl' => SITE_URL . 'assets/',
 
     'uploadsDir' => SITE_URL . 'uploads/',
 
-	// шаблон по умолчанию
-	'layout' => 'main.php',
+    // шаблон по умолчанию
+    'layout' => 'main.php',
 
-	// каталоги, где ещё могут располагаться страницы, кроме DATA_DIR
-	// указывается полный путь
-	// 'dirsForPages' => [BASE_DIR . 'my-pages'],
+    // каталоги, где ещё могут располагаться страницы, кроме DATA_DIR
+    // указывается полный путь
+    // 'dirsForPages' => [BASE_DIR . 'my-pages'],
 
-	// отключить кэширование — только для отладки
-	// 'noCache' => true,
+    // отключить кэширование — только для отладки
+    // 'noCache' => true,
 ];
 
+if (IS_DEV) {
+    $config['noCache'] = true;
+}
+
+return $config;
 # end of file
