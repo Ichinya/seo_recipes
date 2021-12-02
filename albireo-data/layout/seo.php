@@ -21,7 +21,7 @@ require LAYOUT_DIR . 'seo-parts/head.php';
         <?php require LAYOUT_DIR . 'seo-parts/footer.php'; ?>
     </section>
 
-    <section id="myContent" class="w100-phone mar0-tablet" style="margin-left: 250px; max-width: 1100px;">
+    <section id="myContent" class="w100-phone mar0-tablet" style="margin-left: 250px;">
         <div id="top"></div>
         <div class="b-hide show-tablet mar20-b t90 t-center animation-fade">
             <button class="button button2" onclick="seoument.getElementById('myNav').classList.toggle('hide-tablet');">☰ Open menu</button>

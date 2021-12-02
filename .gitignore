@@ -1,5 +1,6 @@
 .idea
 /albireo/cache/*.txt
 /albireo-data/admin
+/albireo-data/pages/sample/
 /.htaccess
 /dev.php

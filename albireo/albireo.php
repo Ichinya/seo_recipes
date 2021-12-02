@@ -12,21 +12,18 @@ getCurrentUrl();  // получить данные по текущему URL
 matchUrlPage();   // подключаемый файл страницы
 pageOut();        // вывод
 
-// for debug
-/*
+if (IS_DEV) {
+    $pageData = getVal('pageData');
+    pr($pageData);
 
-$pageData = getVal('pageData');
-pr($pageData);
+    $pageFile = getVal('pageFile');
+    pr($pageFile);
 
-$pageFile = getVal('pageFile');
-pr($pageFile);
+    $currentUrl = getVal('currentUrl');
+    pr($currentUrl);
 
-$currentUrl = getVal('currentUrl');
-pr($currentUrl);
+    $pagesInfo = getVal('pagesInfo');
+    pr($pagesInfo);
 
-$pagesInfo = getVal('pagesInfo');
-pr($pagesInfo);
-
-*/
-
+}
 # end of file

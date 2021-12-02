@@ -5,7 +5,7 @@
 
 /**
  * Начальное время для получения статистики
- * 
+ *
  * Узнать затраченное время:
  * $time = number_format(microtime(true) - ALBIREO_TIME_START, 6) . 'sec';
  */
@@ -14,7 +14,7 @@ define('ALBIREO_TIME_START', microtime(true));
 /**
  * Добавить данные во flash-сессию
  * https://maxsite.org/page/php-flash-message
- * 
+ *
  * @param string $key - ключ
  * @param $val - данные
  */
@@ -45,14 +45,14 @@ function sessionFlashGet(string $key)
  * @param array $DATA - данные, которые будут доступны в файле в виде переменных
  * @param boolean $showError - отображать ли ошибки в файле шаблона
  * @return string
- * 
+ *
  * <?= tpl(__DIR__ . '/my-block.php', ['header' => 'Hello!']) ?>
- * 
+ *
  * В файле шаблона можно использовать обычный php-код, а таже замены:
  * {{ $header }} -> эквивалентно <?= $header ?>
  * {* $header *} -> эквивалентно <?= htmlspecialchars($header, ENT_QUOTES) ?>
  * {% код %} -> эквивалентно <?php код ?>
- * 
+ *
  * Также будет доступна переменная $DATA (исходный массив данных)
  */
 function tpl(string $FILE, array $DATA = [], bool $showError = true)
@@ -76,7 +76,7 @@ function tpl(string $FILE, array $DATA = [], bool $showError = true)
  * @param boolean $_showError - отображать ли ошибки в файле шаблона
  * @param boolean $FILE - имя файла для вывода в ошибках
  * @return string
- * 
+ *
  * В тексте можно использовать обычный php-код, а таже замены:
  * {{ $header }} -> эквивалентно <?= $header ?>
  * {* $header *} -> эквивалентно <?= htmlspecialchars($header, ENT_QUOTES) ?>
@@ -328,9 +328,9 @@ function processingContent(string $content, array $pageData)
     // если указан парсер парсеров может быть несколько через пробел
     // чтобы отключить парсер можно указать «-» (минус)
     if (isset($pageData['parser']) and $pageData['parser'] and $pageData['parser'] != '-') {
-        
+
         $parsers = $pageData['parser']; // название парсеров
-        
+
         $parsers = explode(' ', $parsers); // список в массив
         $parsers = array_map('trim', $parsers); // обрежем пробелы
 
@@ -617,7 +617,7 @@ function readPages()
             // конечный результат — массив с дефолтными данными
             $info = $defaultInfo;
 
-            $pseudoRand = 1; // иммитируем случайное число в пределах всего массива данных
+            $pseudoRand = 1; // имитируем случайное число в пределах всего массива данных
 
             foreach ($a1 as $a2) {
                 $pos = strpos($a2, ": "); // найдём первое вхождение «: »
@@ -872,7 +872,7 @@ function protectHTMLCode(string $text, $mode = '1')
             return $m[1] . $t . $m[3];
         }, $text);
     }
-    
+
     if ($mode == '1' or $mode == '3') {
         $text = preg_replace_callback('!(<code.*?>)(.*?)(</code>)!is', function ($m) {
             $t = htmlspecialchars($m[2]);
@@ -965,15 +965,15 @@ function pr($var, $html = true, $echo = true)
  * Используется для классов вне PSR-4
  * @param string $class — имя класса
  * @param string $path — полный путь к файлу или каталогу
- * 
+ *
  * addClassmap('log\Model', __DIR__ . '/Model.php');
  * $m = new log\Model;
- * 
+ *
  * addClassmap('admin\log', __DIR__);
  * $m = new admin\log\Controller; // admin/log/Controller.php
  * $m = new admin\log\Model; // admin/log/Model.php
  * $v = new admin\log\View; // admin/log/View.php
- * 
+ *
  */
 function addClassmap(string $class, string $path)
 {
@@ -992,11 +992,11 @@ if (file_exists(BASE_DIR . 'vendor/autoload.php')) require_once BASE_DIR . 'vend
  * Register autoload classes PSR-4
  * https://www.php-fig.org/psr/psr-4/
  * https://maxsite.org/page/php-autoload
- * 
+ *
  * Файл класса располагается в либо в albireo/psr4
  * либо в albireo-data (DATA_DIR и имеет приоритет)
  * Либо используется classmap (см. addClassmap)
- * 
+ *
  * Каталог указывает на namespace
  *
  * Пример 1
