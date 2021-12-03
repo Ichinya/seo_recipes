@@ -9,7 +9,6 @@ parser: simple hljs
 
 menu[title]: РСЯ в Mediawiki
 menu[group]: Mediawiki
-menu[order]: 0
 
 -articleClass: pad30
 

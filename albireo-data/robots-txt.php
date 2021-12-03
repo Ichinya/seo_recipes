@@ -10,7 +10,7 @@ parser: -
 sitemap: -
 
 **/
-
+header("Content-Type: text/plain");
 # https://you-site/robots.txt
 ?>
 User-agent: *
