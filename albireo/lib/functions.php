@@ -555,6 +555,44 @@ function getCurrentUrl()
 }
 
 /**
+ * Считать данные из репозитория
+ * Результат сохраняется в хранилище в ключе «gitInfo»
+ * $pagesInfo = getVal('pagesInfo');
+ */
+function readGitParams()
+{
+    //https://api.github.com/repos/ichinya/seo_book/git/refs/tags
+    // смотрим кэш, если есть, отдаем из него
+    if ($cache = getCache('gitinfo.txt')) {
+        setVal('gitInfo', $cache); // сохраняем массив в хранилище
+        return; // и выходим
+    }
+
+    $url = "https://api.github.com/repos/ichinya/seo_book/git/refs/tags";
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_USERAGENT, "test");
+    $r = curl_exec($ch);
+    curl_close($ch);
+
+    $response_array = json_decode($r, true);
+    $ref = end($response_array);
+
+    $tag = str_replace('refs/tags/', '', $ref['ref']);
+
+    $gitInfo['tag'] = $tag;
+    $gitInfo['url'] = 'https://github.com/Ichinya/seo_book';
+
+    // сохраняем массив глобально
+    setVal('gitInfo', $gitInfo);
+
+    // сохраняем данные в кэше — файл pagesinfo.txt
+    // данные серилизуем
+
+    setCache('gitinfo.txt', $gitInfo);
+}
+
+/**
  * Считать данные всех записей
  * Результат сохраняется в хранилище в ключе «pagesInfo»
  * $pagesInfo = getVal('pagesInfo');
@@ -893,10 +931,7 @@ function createHtaccess()
     if (file_exists(BASE_DIR . '.htaccess')) return;
 
     // получаем путь сайта на сервере
-    if (isset($_SERVER['REQUEST_URI']))
-        $path = $_SERVER['REQUEST_URI'];
-    else
-        $path = '/';
+    $path = $_SERVER['REQUEST_URI'] ?? '/';
 
     // считываем шаблон
     $htaccess = file_get_contents(SYS_DIR . 'htaccess-distr.txt');

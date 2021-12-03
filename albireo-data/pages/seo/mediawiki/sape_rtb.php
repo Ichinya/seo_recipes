@@ -9,7 +9,6 @@ parser: simple geshi
 
 menu[title]: Sape.RTB в Mediawiki
 menu[group]: Mediawiki
-menu[order]: 1
 
 -articleClass: pad30
 

@@ -8,6 +8,7 @@ require_once SYS_DIR . 'lib/html_helpers.php';
 
 createHtaccess(); // создать .htaccess
 readPages();      // считать данные всех pages
+readGitParams();  // берем параметры из гита
 getCurrentUrl();  // получить данные по текущему URL
 matchUrlPage();   // подключаемый файл страницы
 pageOut();        // вывод

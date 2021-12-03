@@ -7,11 +7,10 @@ description: Используем ЯндексТурбо в Mediawiki
 slug: mediawiki/turbo
 
 layout: seo.php
-parser: simple geshi
+parser: simple
 
 menu[title]: Яндекс.Турбо в Mediawiki
 menu[group]: Mediawiki
-menu[order]: 1
 
 -articleClass: pad30
 
