@@ -761,8 +761,7 @@ class PageSortedIterator extends SplHeap
             $this->insert($item);
         }
     }
-
-    public function compare($b, $a)
+    public function compare($b, $a): int
     {
         return strcmp($a->getRealpath(), $b->getRealpath());
     }
@@ -792,43 +791,80 @@ function getCache(string $file)
     if (file_exists(CACHE_DIR . $file)) {
         // проверим не устарел ли кэш
 
-        // смотрим «снимок» каталогов, включая DATA_DIR
-        // это позволяет отслеживать все изменения
-        $addDirs = array_merge([DATA_DIR], getConfig('dirsForPages', []));
-        $snapshot = getSnapshot($addDirs); // текущий «снимок»
+        // имя файла snapshot формируем динамически с привязкой к файлу кэша
+        $snapshotFN = 'snapshot' . crc32($file) . '.txt';
 
-        // сравниваем старый (из кэша) и новый «снимки»
+        // смотрим когда было последнее обращение к этому snapshot
+        // он хранится в файле lastXXX.txt
+        // если текущая дата отличается от времени в last больше чем на cacheTimeL1 секунд,
+        // то проверим snapshot как обычно
+        // если разница меньше, то считаем, что кэш не устарел и отдаём его без проверки snapshot
+        // время указывается в конфигурации сайта в ключе cacheTimeL1 в секундах
+        // это позволяет уменьшить количество обращений к диску при большом количестве http-запросов
 
-        // получаем CRC32 полином
-        $snapshot = crc32($snapshot);
+        // время по умолчанию 10 секунд
+        $cacheTimeL1 = (int) getConfig('cacheTimeL1', 10);
 
-        // старый берём из файла кэша
-        if (file_exists(CACHE_DIR . 'snapshot.txt')) {
+        // имя файла last формируем динамически с привязкой к файлу кэша
+        $lastFN = 'last' . crc32($file) . '.txt';
+        $lastOld = 0; // здесь будет время из этого файла
+
+        if ($cacheTimeL1 > 0 and file_exists(CACHE_DIR . $lastFN)) {
             // загрузили содержимое
-            $snapshotOld = file_get_contents(CACHE_DIR . 'snapshot.txt');
+            $lastOld = file_get_contents(CACHE_DIR . $lastFN);
 
+            // взяли время в last-файле
             // обратная серилизация с @подавлением ошибок
-            $snapshotOld = @unserialize($snapshotOld);
-        } else {
-            $snapshotOld = 0;
+            $lastOld = @unserialize($lastOld);
         }
 
-        // если они неравны, то кэш невалидный
-        if ($snapshot != $snapshotOld) {
-            // сохраняем в кэше новый
-            setCache('snapshot.txt', $snapshot);
+        if (time() - $lastOld > $cacheTimeL1) {
+            // кэш snapshot возможно устарел, требуется проверка
 
-            \Cache\Memcached::getInstance()->clear();
+            // смотрим «снимок» каталогов, включая DATA_DIR
+            // это позволяет отслеживать все изменения
+            $addDirs = array_merge([DATA_DIR], getConfig('dirsForPages', []));
+            $snapshot = getSnapshot($addDirs); // текущий «снимок»
 
-            // кэш невалидный, выходим
-            return false;
+            // сравниваем старый (из кэша) и новый «снимки»
+
+            // получаем CRC32 полином
+            $snapshot = crc32($snapshot);
+
+            // старый берём из файла кэша
+            if (file_exists(CACHE_DIR . $snapshotFN)) {
+                // загрузили содержимое
+                $snapshotOld = file_get_contents(CACHE_DIR . $snapshotFN);
+
+                // обратная серилизация с @подавлением ошибок
+                $snapshotOld = @unserialize($snapshotOld);
+            } else {
+                $snapshotOld = 0;
+            }
+
+            // обновляем время построения текущего «снимка»
+            setCache($lastFN, time());
+
+            // если они не равны, то кэш невалидный
+            if ($snapshot != $snapshotOld) {
+                // сохраняем в кэше новый
+                setCache($snapshotFN, $snapshot);
+                \Cache\Memcached::getInstance()->clear();
+
+                // кэш невалидный, выходим
+                return false;
+            }
         }
 
-        // если всё, ок, то отдаём кэш из файла
+
         return \Cache\Memcached::getInstance()->remember($file, 86400, function () use ($file) {
+            // если всё, ок, то отдаём кэш из файла
             $content = file_get_contents(CACHE_DIR . $file); // загрузили содержимое
+
             // обратная серилизация с @подавлением ошибок
-            return @unserialize($content) ?? false;
+            $content = @unserialize($content);
+
+            return $content ?: false;
         });
     } else {
         // файла кэша вообще нет
@@ -856,8 +892,10 @@ function getSnapshot(array $dirs)
             $directory = new \RecursiveDirectoryIterator($dir);
             $iterator = new \RecursiveIteratorIterator($directory);
 
-            foreach ($iterator as $info) {
-                // в «снимок» идут имена файлов и их даты
+        foreach ($iterator as $info) {
+            // в «снимок» идут имена файлов и их даты
+            // и только с расширением php
+            if ($info->getExtension() == 'php')
                 $snapshot .= $info->getPathname() . $info->getMTime();
             }
         }

@@ -5,7 +5,7 @@
 
 // конфигурация для обычного вывода страниц
 
-$config = [
+return [
     // url-путь к assets
     'assetsUrl' => SITE_URL . 'assets/',
 
@@ -19,14 +19,14 @@ $config = [
     // 'dirsForPages' => [BASE_DIR . 'my-pages'],
 
     // отключить кэширование — только для отладки
-    // 'noCache' => true,
+    'noCache' => IS_DEV ?? false,
+
+    // минимальное время между проверками кэша — в секундах
+    // используйте для уменьшения обращения к диску при большом количестве http-запросов
+    // если значение равно 0, то проверка отключается
+    'cacheTimeL1' => 10,
 
     'memcached' => ['address' => '127.0.0.1', 'port' => 11211],
 ];
 
-if (IS_DEV) {
-    $config['noCache'] = true;
-}
-
-return $config;
 # end of file
