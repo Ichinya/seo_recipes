@@ -6,12 +6,14 @@
 require_once SYS_DIR . 'lib/functions.php';
 require_once SYS_DIR . 'lib/html_helpers.php';
 
+//\Cache\Memcached::getInstance()->clear();
+
 createHtaccess(); // создать .htaccess
 readPages();      // считать данные всех pages
 readGitParams();  // берем параметры из гита
 getCurrentUrl();  // получить данные по текущему URL
 matchUrlPage();   // подключаемый файл страницы
-pageOut();        // вывод
+echo \Cache\Memcached::getInstance()->remember(getVal('pageData')['slug'], 86400, fn() => pageOut()); // вывод
 
 if (IS_DEV) {
     $pageData = getVal('pageData');

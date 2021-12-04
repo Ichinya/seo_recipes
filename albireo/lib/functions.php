@@ -311,9 +311,9 @@ function pageOut()
             $content = compress_html($content); // обработали текст
         }
 
-        echo $content; // вывели контент в браузер
+        return $content; // вывели контент в браузер
     } else {
-        echo 'Error! Main-file not-found... ;-(';
+        return 'Error! Main-file not-found... ;-(';
     }
 }
 
@@ -377,7 +377,7 @@ function processingContent(string $content, array $pageData)
  * @param $before - приставка к результату, если он есть
  * @param $after - корень к результату, если он есть
  */
-function getPageData(string $key,  $default = '', $before = '', $after = '')
+function getPageData(string $key, $default = '', $before = '', $after = '')
 {
     $pageData = getVal('pageData');
 
@@ -395,9 +395,9 @@ function getPageData(string $key,  $default = '', $before = '', $after = '')
  * @param $before - приставка к результату, если он есть
  * @param $after - корень к результату, если он есть
  */
-function getPageDataHtml(string $key,  $default = '', $before = '', $after = '')
+function getPageDataHtml(string $key, $default = '', $before = '', $after = '')
 {
-    return htmlspecialchars(getPageData($key,  $default, $before, $after));
+    return htmlspecialchars(getPageData($key, $default, $before, $after));
 }
 
 /**
@@ -440,41 +440,43 @@ function matchUrlPage()
     $currentUrl = getVal('currentUrl'); // текущий адрес
     $pagesInfo = getVal('pagesInfo'); // все страницы
 
-    $result = ''; // результат
+    $result = \Cache\Memcached::getInstance()->remember(json_encode($currentUrl), 600, function () use ($pagesInfo, $currentUrl) {
+        $result = '';
+        foreach ($pagesInfo as $file => $page) {
+            // вначале проверяем метод
+            $method = $page['method'] ?? 'GET'; // по умолчанию это GET
+            $method = strtoupper($method); // в верхний регистр
 
-    foreach ($pagesInfo as $file => $page) {
-        // вначале проверяем метод
-        $method = $page['method'] ?? 'GET'; // по умолчанию это GET
-        $method = strtoupper($method); // в верхний регистр
+            if ($method == $currentUrl['method']) {
+                // если совпал, то смотрим slug
+                $slug = $page['slug'] ?? false;
 
-        if ($method == $currentUrl['method']) {
-            // если совпал, то смотрим slug
-            $slug = $page['slug'] ?? false;
+                if (!$slug) continue; // не указан, но должен быть
+                if ($slug == '/') $slug = ''; // преобразование для главной
 
-            if (!$slug) continue; // не указан, но должен быть
-            if ($slug == '/') $slug = ''; // преобразование для главной
+                if (strtolower($slug) == $currentUrl['url']) {
+                    // есть совпадение
+                    $result = $file; // имя файла
+                    break;
+                } else {
+                    // slug не совпал, поэтому смотрим поле slug-pattern, где может храниться регулярка
+                    $slug_pattern = $page['slug-pattern'] ?? false;
 
-            if (strtolower($slug) == $currentUrl['url']) {
-                // есть совпадение
-                $result = $file; // имя файла
-                break;
-            } else {
-                // slug не совпал, поэтому смотрим поле slug-pattern, где может храниться регулярка
-                $slug_pattern = $page['slug-pattern'] ?? false;
-
-                if ($slug_pattern) {
-                    if (preg_match('~^' . $slug_pattern . '$~iu', $currentUrl['url'])) {
-                        // есть совпадение
-                        $result = $file; // имя файла
-                        break;
+                    if ($slug_pattern) {
+                        if (preg_match('~^' . $slug_pattern . '$~iu', $currentUrl['url'])) {
+                            // есть совпадение
+                            $result = $file; // имя файла
+                            break;
+                        }
                     }
                 }
             }
         }
-    }
+        return $result;
+    }); // результат
 
     // если ничего не найдено, отдаём файл 404-страницы
-    if (!$result and file_exists(DATA_DIR . '404.php')) $result =  DATA_DIR . '404.php';
+    if (!$result and file_exists(DATA_DIR . '404.php')) $result = DATA_DIR . '404.php';
 
     // сохраним в хранилище имя файла
     setVal('pageFile', $result);
@@ -562,8 +564,11 @@ function getCurrentUrl()
 function readGitParams()
 {
     //https://api.github.com/repos/ichinya/seo_book/git/refs/tags
+    $cache = \Cache\Memcached::getInstance()->remember('gitinfo', 86400, function () {
+        return getCache('gitinfo.txt');
+    });
     // смотрим кэш, если есть, отдаем из него
-    if ($cache = getCache('gitinfo.txt')) {
+    if ($cache) {
         setVal('gitInfo', $cache); // сохраняем массив в хранилище
         return; // и выходим
     }
@@ -693,7 +698,7 @@ function readPages()
                 $parts = pathinfo($f);
 
                 // берём только путь и имя файла без расширения
-                $slug =  $parts['dirname'] . DIRECTORY_SEPARATOR . $parts['filename'];
+                $slug = $parts['dirname'] . DIRECTORY_SEPARATOR . $parts['filename'];
 
                 // делаем замены слэшей на URL
                 $slug = str_replace(['.\\', './', '\\'], ['', '', '/'], $slug);
@@ -756,6 +761,7 @@ class PageSortedIterator extends SplHeap
             $this->insert($item);
         }
     }
+
     public function compare($b, $a)
     {
         return strcmp($a->getRealpath(), $b->getRealpath());
@@ -807,25 +813,23 @@ function getCache(string $file)
             $snapshotOld = 0;
         }
 
-        // если они не равны, то кэш невалидный
+        // если они неравны, то кэш невалидный
         if ($snapshot != $snapshotOld) {
             // сохраняем в кэше новый
             setCache('snapshot.txt', $snapshot);
+
+            \Cache\Memcached::getInstance()->clear();
 
             // кэш невалидный, выходим
             return false;
         }
 
         // если всё, ок, то отдаём кэш из файла
-        $content = file_get_contents(CACHE_DIR . $file); // загрузили содержимое
-
-        // обратная серилизация с @подавлением ошибок
-        $content = @unserialize($content);
-
-        if ($content)
-            return $content; // если есть что отдавать
-        else
-            return false;
+        return \Cache\Memcached::getInstance()->remember($file, 86400, function () use ($file) {
+            $content = file_get_contents(CACHE_DIR . $file); // загрузили содержимое
+            // обратная серилизация с @подавлением ошибок
+            return @unserialize($content) ?? false;
+        });
     } else {
         // файла кэша вообще нет
         return false;
@@ -839,23 +843,27 @@ function getCache(string $file)
  */
 function getSnapshot(array $dirs)
 {
-    $snapshot = '';
 
-    foreach ($dirs as $dir) {
+    return \Cache\Memcached::getInstance()->remember(json_encode($dirs), 30, function () use ($dirs) {
 
-        if (!is_dir($dir)) continue;
+        $snapshot = '';
 
-        // рекурсивно обходим каталог
-        $directory = new \RecursiveDirectoryIterator($dir);
-        $iterator = new \RecursiveIteratorIterator($directory);
+        foreach ($dirs as $dir) {
 
-        foreach ($iterator as $info) {
-            // в «снимок» идут имена файлов и их даты
-            $snapshot .= $info->getPathname() . $info->getMTime();
+            if (!is_dir($dir)) continue;
+
+            // рекурсивно обходим каталог
+            $directory = new \RecursiveDirectoryIterator($dir);
+            $iterator = new \RecursiveIteratorIterator($directory);
+
+            foreach ($iterator as $info) {
+                // в «снимок» идут имена файлов и их даты
+                $snapshot .= $info->getPathname() . $info->getMTime();
+            }
         }
-    }
 
-    return $snapshot;
+        return $snapshot;
+    });
 }
 
 /**

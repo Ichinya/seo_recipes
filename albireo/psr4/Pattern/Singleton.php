@@ -6,14 +6,14 @@
 
 /**
  * Design pattern "Singleton" (Creational)
- * 
+ *
  * class MyClass
  * {
  *      use Pattern\Singleton;
- * 
+ *
  *      ...
  * }
- * 
+ *
  * $m = MyClass::getInstance();
  * $m->...
  */
@@ -22,7 +22,7 @@ namespace Pattern;
 
 trait Singleton
 {
-	private static $instance;
+	private static $instance = null;
 
 	public static function getInstance()
 	{
