@@ -440,40 +440,37 @@ function matchUrlPage()
     $currentUrl = getVal('currentUrl'); // текущий адрес
     $pagesInfo = getVal('pagesInfo'); // все страницы
 
-    $result = \Cache\Memcached::getInstance()->remember(json_encode($currentUrl), 600, function () use ($pagesInfo, $currentUrl) {
-        $result = '';
-        foreach ($pagesInfo as $file => $page) {
-            // вначале проверяем метод
-            $method = $page['method'] ?? 'GET'; // по умолчанию это GET
-            $method = strtoupper($method); // в верхний регистр
+    $result = '';
+    foreach ($pagesInfo as $file => $page) {
+        // вначале проверяем метод
+        $method = $page['method'] ?? 'GET'; // по умолчанию это GET
+        $method = strtoupper($method); // в верхний регистр
 
-            if ($method == $currentUrl['method']) {
-                // если совпал, то смотрим slug
-                $slug = $page['slug'] ?? false;
+        if ($method == $currentUrl['method']) {
+            // если совпал, то смотрим slug
+            $slug = $page['slug'] ?? false;
 
-                if (!$slug) continue; // не указан, но должен быть
-                if ($slug == '/') $slug = ''; // преобразование для главной
+            if (!$slug) continue; // не указан, но должен быть
+            if ($slug == '/') $slug = ''; // преобразование для главной
 
-                if (strtolower($slug) == $currentUrl['url']) {
-                    // есть совпадение
-                    $result = $file; // имя файла
-                    break;
-                } else {
-                    // slug не совпал, поэтому смотрим поле slug-pattern, где может храниться регулярка
-                    $slug_pattern = $page['slug-pattern'] ?? false;
+            if (strtolower($slug) == $currentUrl['url']) {
+                // есть совпадение
+                $result = $file; // имя файла
+                break;
+            } else {
+                // slug не совпал, поэтому смотрим поле slug-pattern, где может храниться регулярка
+                $slug_pattern = $page['slug-pattern'] ?? false;
 
-                    if ($slug_pattern) {
-                        if (preg_match('~^' . $slug_pattern . '$~iu', $currentUrl['url'])) {
-                            // есть совпадение
-                            $result = $file; // имя файла
-                            break;
-                        }
+                if ($slug_pattern) {
+                    if (preg_match('~^' . $slug_pattern . '$~iu', $currentUrl['url'])) {
+                        // есть совпадение
+                        $result = $file; // имя файла
+                        break;
                     }
                 }
             }
         }
-        return $result;
-    }); // результат
+    }
 
     // если ничего не найдено, отдаём файл 404-страницы
     if (!$result and file_exists(DATA_DIR . '404.php')) $result = DATA_DIR . '404.php';
@@ -484,7 +481,7 @@ function matchUrlPage()
     // сохраним и данные этой страницы
     setVal('pageData', $pagesInfo[$result] ?? []);
 
-    return $result;
+    return $result; // результат
 }
 
 /**
@@ -564,9 +561,8 @@ function getCurrentUrl()
 function readGitParams()
 {
     //https://api.github.com/repos/ichinya/seo_book/git/refs/tags
-    $cache = \Cache\Memcached::getInstance()->remember('gitinfo', 86400, function () {
-        return getCache('gitinfo.txt');
-    });
+
+    $cache = getCache('gitinfo.txt');
     // смотрим кэш, если есть, отдаем из него
     if ($cache) {
         setVal('gitInfo', $cache); // сохраняем массив в хранилище
@@ -761,6 +757,7 @@ class PageSortedIterator extends SplHeap
             $this->insert($item);
         }
     }
+
     public function compare($b, $a): int
     {
         return strcmp($a->getRealpath(), $b->getRealpath());
@@ -803,7 +800,7 @@ function getCache(string $file)
         // это позволяет уменьшить количество обращений к диску при большом количестве http-запросов
 
         // время по умолчанию 10 секунд
-        $cacheTimeL1 = (int) getConfig('cacheTimeL1', 10);
+        $cacheTimeL1 = (int)getConfig('cacheTimeL1', 10);
 
         // имя файла last формируем динамически с привязкой к файлу кэша
         $lastFN = 'last' . crc32($file) . '.txt';
@@ -849,23 +846,19 @@ function getCache(string $file)
             if ($snapshot != $snapshotOld) {
                 // сохраняем в кэше новый
                 setCache($snapshotFN, $snapshot);
-                \Cache\Memcached::getInstance()->clear();
 
                 // кэш невалидный, выходим
                 return false;
             }
         }
 
+        // если всё, ок, то отдаём кэш из файла
+        $content = file_get_contents(CACHE_DIR . $file); // загрузили содержимое
 
-        return \Cache\Memcached::getInstance()->remember($file, 86400, function () use ($file) {
-            // если всё, ок, то отдаём кэш из файла
-            $content = file_get_contents(CACHE_DIR . $file); // загрузили содержимое
+        // обратная серилизация с @подавлением ошибок
+        $content = @unserialize($content);
 
-            // обратная серилизация с @подавлением ошибок
-            $content = @unserialize($content);
-
-            return $content ?: false;
-        });
+        return $content ?: false;
     } else {
         // файла кэша вообще нет
         return false;
@@ -880,28 +873,25 @@ function getCache(string $file)
 function getSnapshot(array $dirs)
 {
 
-    return \Cache\Memcached::getInstance()->remember(json_encode($dirs), 30, function () use ($dirs) {
+    $snapshot = '';
 
-        $snapshot = '';
+    foreach ($dirs as $dir) {
 
-        foreach ($dirs as $dir) {
+        if (!is_dir($dir)) continue;
 
-            if (!is_dir($dir)) continue;
-
-            // рекурсивно обходим каталог
-            $directory = new \RecursiveDirectoryIterator($dir);
-            $iterator = new \RecursiveIteratorIterator($directory);
+        // рекурсивно обходим каталог
+        $directory = new \RecursiveDirectoryIterator($dir);
+        $iterator = new \RecursiveIteratorIterator($directory);
 
         foreach ($iterator as $info) {
             // в «снимок» идут имена файлов и их даты
             // и только с расширением php
             if ($info->getExtension() == 'php')
                 $snapshot .= $info->getPathname() . $info->getMTime();
-            }
         }
+    }
 
-        return $snapshot;
-    });
+    return $snapshot;
 }
 
 /**

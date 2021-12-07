@@ -13,7 +13,14 @@ readPages();      // считать данные всех pages
 readGitParams();  // берем параметры из гита
 getCurrentUrl();  // получить данные по текущему URL
 matchUrlPage();   // подключаемый файл страницы
-echo \Cache\Memcached::getInstance()->remember(getVal('pageData')['slug'], 86400, fn() => pageOut()); // вывод
+$slug = str_replace(['.', '/', '\\'], '_', getVal('pageData')['slug']);
+$page = getCache($slug);
+if (!$page) {
+    $page = pageOut();
+    setCache($slug . '.txt', $page);
+}
+echo $page;
+//echo \Cache\Memcached::getInstance()->remember(getVal('pageData')['slug'], 86400, fn() => pageOut()); // вывод
 
 if (IS_DEV) {
     $pageData = getVal('pageData');

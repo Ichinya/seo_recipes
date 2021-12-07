@@ -26,7 +26,6 @@ return [
     // если значение равно 0, то проверка отключается
     'cacheTimeL1' => 10,
 
-    'memcached' => ['address' => '127.0.0.1', 'port' => 11211],
 ];
 
 # end of file
