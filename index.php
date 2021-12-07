@@ -1,5 +1,4 @@
 <?php
-
 /**
  * (c) Albireo Framework, https://maxsite.org/albireo, 2020
  */
@@ -37,7 +36,7 @@ if (!defined('LAYOUT_DIR')) define('LAYOUT_DIR', DATA_DIR . 'layout' . DIRECTORY
 if (!defined('SNIPPETS_DIR')) define('SNIPPETS_DIR', DATA_DIR . 'snippets' . DIRECTORY_SEPARATOR);
 if (!defined('STATIC_EXT')) define('STATIC_EXT', '');
 
-// в зависисмости от режима, подключаем разные файлы
+// в зависимости от режима, подключаем разные файлы
 if (defined('GENERATE_STATIC'))
     require SYS_DIR . 'generation.php';
 else

@@ -311,9 +311,9 @@ function pageOut()
             $content = compress_html($content); // обработали текст
         }
 
-        echo $content; // вывели контент в браузер
+        return $content; // вывели контент в браузер
     } else {
-        echo 'Error! Main-file not-found... ;-(';
+        return 'Error! Main-file not-found... ;-(';
     }
 }
 
@@ -377,7 +377,7 @@ function processingContent(string $content, array $pageData)
  * @param $before - приставка к результату, если он есть
  * @param $after - корень к результату, если он есть
  */
-function getPageData(string $key,  $default = '', $before = '', $after = '')
+function getPageData(string $key, $default = '', $before = '', $after = '')
 {
     $pageData = getVal('pageData');
 
@@ -395,9 +395,9 @@ function getPageData(string $key,  $default = '', $before = '', $after = '')
  * @param $before - приставка к результату, если он есть
  * @param $after - корень к результату, если он есть
  */
-function getPageDataHtml(string $key,  $default = '', $before = '', $after = '')
+function getPageDataHtml(string $key, $default = '', $before = '', $after = '')
 {
-    return htmlspecialchars(getPageData($key,  $default, $before, $after));
+    return htmlspecialchars(getPageData($key, $default, $before, $after));
 }
 
 /**
@@ -440,8 +440,7 @@ function matchUrlPage()
     $currentUrl = getVal('currentUrl'); // текущий адрес
     $pagesInfo = getVal('pagesInfo'); // все страницы
 
-    $result = ''; // результат
-
+    $result = '';
     foreach ($pagesInfo as $file => $page) {
         // вначале проверяем метод
         $method = $page['method'] ?? 'GET'; // по умолчанию это GET
@@ -474,7 +473,7 @@ function matchUrlPage()
     }
 
     // если ничего не найдено, отдаём файл 404-страницы
-    if (!$result and file_exists(DATA_DIR . '404.php')) $result =  DATA_DIR . '404.php';
+    if (!$result and file_exists(DATA_DIR . '404.php')) $result = DATA_DIR . '404.php';
 
     // сохраним в хранилище имя файла
     setVal('pageFile', $result);
@@ -482,7 +481,7 @@ function matchUrlPage()
     // сохраним и данные этой страницы
     setVal('pageData', $pagesInfo[$result] ?? []);
 
-    return $result;
+    return $result; // результат
 }
 
 /**
@@ -562,8 +561,10 @@ function getCurrentUrl()
 function readGitParams()
 {
     //https://api.github.com/repos/ichinya/seo_book/git/refs/tags
+
+    $cache = getCache('gitinfo.txt');
     // смотрим кэш, если есть, отдаем из него
-    if ($cache = getCache('gitinfo.txt')) {
+    if ($cache) {
         setVal('gitInfo', $cache); // сохраняем массив в хранилище
         return; // и выходим
     }
@@ -693,7 +694,7 @@ function readPages()
                 $parts = pathinfo($f);
 
                 // берём только путь и имя файла без расширения
-                $slug =  $parts['dirname'] . DIRECTORY_SEPARATOR . $parts['filename'];
+                $slug = $parts['dirname'] . DIRECTORY_SEPARATOR . $parts['filename'];
 
                 // делаем замены слэшей на URL
                 $slug = str_replace(['.\\', './', '\\'], ['', '', '/'], $slug);
@@ -756,7 +757,8 @@ class PageSortedIterator extends SplHeap
             $this->insert($item);
         }
     }
-    public function compare($b, $a)
+
+    public function compare($b, $a): int
     {
         return strcmp($a->getRealpath(), $b->getRealpath());
     }
@@ -786,34 +788,68 @@ function getCache(string $file)
     if (file_exists(CACHE_DIR . $file)) {
         // проверим не устарел ли кэш
 
-        // смотрим «снимок» каталогов, включая DATA_DIR
-        // это позволяет отслеживать все изменения
-        $addDirs = array_merge([DATA_DIR], getConfig('dirsForPages', []));
-        $snapshot = getSnapshot($addDirs); // текущий «снимок»
+        // имя файла snapshot формируем динамически с привязкой к файлу кэша
+        $snapshotFN = 'snapshot' . crc32($file) . '.txt';
 
-        // сравниваем старый (из кэша) и новый «снимки»
+        // смотрим когда было последнее обращение к этому snapshot
+        // он хранится в файле lastXXX.txt
+        // если текущая дата отличается от времени в last больше чем на cacheTimeL1 секунд,
+        // то проверим snapshot как обычно
+        // если разница меньше, то считаем, что кэш не устарел и отдаём его без проверки snapshot
+        // время указывается в конфигурации сайта в ключе cacheTimeL1 в секундах
+        // это позволяет уменьшить количество обращений к диску при большом количестве http-запросов
 
-        // получаем CRC32 полином
-        $snapshot = crc32($snapshot);
+        // время по умолчанию 10 секунд
+        $cacheTimeL1 = (int)getConfig('cacheTimeL1', 10);
 
-        // старый берём из файла кэша
-        if (file_exists(CACHE_DIR . 'snapshot.txt')) {
+        // имя файла last формируем динамически с привязкой к файлу кэша
+        $lastFN = 'last' . crc32($file) . '.txt';
+        $lastOld = 0; // здесь будет время из этого файла
+
+        if ($cacheTimeL1 > 0 and file_exists(CACHE_DIR . $lastFN)) {
             // загрузили содержимое
-            $snapshotOld = file_get_contents(CACHE_DIR . 'snapshot.txt');
+            $lastOld = file_get_contents(CACHE_DIR . $lastFN);
 
+            // взяли время в last-файле
             // обратная серилизация с @подавлением ошибок
-            $snapshotOld = @unserialize($snapshotOld);
-        } else {
-            $snapshotOld = 0;
+            $lastOld = @unserialize($lastOld);
         }
 
-        // если они не равны, то кэш невалидный
-        if ($snapshot != $snapshotOld) {
-            // сохраняем в кэше новый
-            setCache('snapshot.txt', $snapshot);
+        if (time() - $lastOld > $cacheTimeL1) {
+            // кэш snapshot возможно устарел, требуется проверка
 
-            // кэш невалидный, выходим
-            return false;
+            // смотрим «снимок» каталогов, включая DATA_DIR
+            // это позволяет отслеживать все изменения
+            $addDirs = array_merge([DATA_DIR], getConfig('dirsForPages', []));
+            $snapshot = getSnapshot($addDirs); // текущий «снимок»
+
+            // сравниваем старый (из кэша) и новый «снимки»
+
+            // получаем CRC32 полином
+            $snapshot = crc32($snapshot);
+
+            // старый берём из файла кэша
+            if (file_exists(CACHE_DIR . $snapshotFN)) {
+                // загрузили содержимое
+                $snapshotOld = file_get_contents(CACHE_DIR . $snapshotFN);
+
+                // обратная серилизация с @подавлением ошибок
+                $snapshotOld = @unserialize($snapshotOld);
+            } else {
+                $snapshotOld = 0;
+            }
+
+            // обновляем время построения текущего «снимка»
+            setCache($lastFN, time());
+
+            // если они не равны, то кэш невалидный
+            if ($snapshot != $snapshotOld) {
+                // сохраняем в кэше новый
+                setCache($snapshotFN, $snapshot);
+
+                // кэш невалидный, выходим
+                return false;
+            }
         }
 
         // если всё, ок, то отдаём кэш из файла
@@ -822,10 +858,7 @@ function getCache(string $file)
         // обратная серилизация с @подавлением ошибок
         $content = @unserialize($content);
 
-        if ($content)
-            return $content; // если есть что отдавать
-        else
-            return false;
+        return $content ?: false;
     } else {
         // файла кэша вообще нет
         return false;
@@ -839,6 +872,7 @@ function getCache(string $file)
  */
 function getSnapshot(array $dirs)
 {
+
     $snapshot = '';
 
     foreach ($dirs as $dir) {
@@ -851,7 +885,9 @@ function getSnapshot(array $dirs)
 
         foreach ($iterator as $info) {
             // в «снимок» идут имена файлов и их даты
-            $snapshot .= $info->getPathname() . $info->getMTime();
+            // и только с расширением php
+            if ($info->getExtension() == 'php')
+                $snapshot .= $info->getPathname() . $info->getMTime();
         }
     }
 

@@ -65,7 +65,7 @@ foreach (getVal('pagesInfo') as $file => $pageData) {
     setVal('pageData', $pageData);
     setVal('pageFile', $file);
 
-    // поскольку текущего URL не существует, то иммитируем на основе SITE_URL
+    // поскольку текущего URL не существует, то имитируем на основе SITE_URL
     setVal('currentUrl', [
         'method' => 'GET',
         'url' => $fileOut,
@@ -74,7 +74,7 @@ foreach (getVal('pagesInfo') as $file => $pageData) {
 
     // ловим вывод страницы
     ob_start();
-    pageOut();
+    echo pageOut();
     $content = ob_get_contents(); // забрали результат
 
     if (ob_get_length()) ob_end_clean(); // очистили буфер

@@ -5,8 +5,8 @@
 
 /**
  *  сжатие HTML
- * 
- *  @param $text входной текст
+ *
+ *  @param string $text входной текст
  *  @return string
  */
 function compress_html($text)
@@ -46,7 +46,7 @@ function compress_html($text)
 /**
  *  script которые загоняются в [html_base64]
  *  callback-функция
- * 
+ *
  *  @param $matches matches
  *  @return string
  */
@@ -59,7 +59,7 @@ function _compress_html_protect($m)
  *  Сжатите CSS-кода
  *  Работает очень «мягко», чтобы не влиять на сам css-код
  *  callback-функция
- *  
+ *
  *  @param $matches matches
  *  @return string
  */

@@ -13,4 +13,5 @@
     <?= implode(getKeysPageData('link', '<link rel="[key]" href="[val]">')) ?>
     <?= implode(getKeysPageData('head', '[val]')) ?>
     <?php require LAYOUT_DIR . 'seo-parts/style.php'; ?>
+    <?php snippet('counter') ?>
 </head>
