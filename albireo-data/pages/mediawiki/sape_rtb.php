@@ -102,6 +102,6 @@ public function getTemplateData() {
 
     _ В принципе и всё. Реклама будет показываться под заголовком статьи.
 
-    <?php snippet('next-prev', ['', 'mediawiki/yandex_partner']); ?>
+    <?php snippet('next-prev', ['mediawiki/sape', 'mediawiki/yandex_partner']); ?>
 
 /div
