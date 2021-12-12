@@ -185,6 +185,7 @@ function getKeysPageData(string $key = 'meta', string $format = '<meta property=
                 $vRepl = str_replace('[assets-url]', getConfig('assetsUrl'), $vRepl);
                 $vRepl = str_replace('[EOL]', PHP_EOL, $vRepl);
                 $vRepl = str_replace('[data-url]', DATA_URL, $vRepl);
+                $vRepl = str_replace('[admin-url]', ADMIN_URL, $vRepl);
 
                 $out[] = str_replace(['[key]', '[val]'], [$m[1], $vRepl], $format);
             } else {
@@ -245,35 +246,64 @@ function _getContentFile($fn)
  */
 function pageOut()
 {
+    // проверим существание каталога шаблона
+    if (!file_exists(getConfig('templateDir'))) {
+        echo 'Error! Template not-found... ;-(';
+        return;
+    }
+
     $pageData = getVal('pageData'); // данные страницы
 
     // у страницы может быть свой шаблон
     $layout = $pageData['layout'] ?? '';
     $mainFile = ''; // итоговый файл
 
-    if ($layout) {
-        // приоритет файла в LAYOUT_DIR
-        if (file_exists(LAYOUT_DIR . $layout)) {
-            $mainFile = LAYOUT_DIR . $layout; // есть такой файл
-        } else {
-            // возможно файл указан относительно каталога DATA_DIR
-            if (file_exists(DATA_DIR . $layout)) $mainFile = DATA_DIR . $layout;
-        }
-    }
+    // если у страницы нет параметра layout, то берём дефолтное значение
+    if (!$layout) $layout = getConfig('layout', 'main.php');
 
-    // если ничего не нашли, то используем тот, который указан в конфигурации
-    if (!$mainFile) $mainFile = LAYOUT_DIR . getConfig('layout');
+    // замена «admin/» на полный путь к файлу
+    // это нужно, чтобы обеспечить доступ к админ-панели
+    if (strpos($layout, 'admin/') === 0)
+        $layout = str_replace('admin/', ADMIN_DIR, $layout);
+
+    // проверяем существование этого файла
+    // вначале относительно текущего шаблона
+    // потом относительно DATA_DIR
+    // потом в DATA_DIR/layout/ для совместимости со строй версией Albireo
+    // и потом явно с полным путем (используется в админке)
+    if (file_exists(getConfig('templateLayoutDir') . $layout))
+        $mainFile = getConfig('templateLayoutDir') . $layout;
+    elseif (file_exists(DATA_DIR . $layout))
+        $mainFile = DATA_DIR . $layout;
+    elseif (file_exists(DATA_DIR . 'layout' . DIRECTORY_SEPARATOR . $layout))
+        $mainFile = DATA_DIR . 'layout' . DIRECTORY_SEPARATOR . $layout;
+    elseif (file_exists($layout))
+        $mainFile = $layout;
 
     // в конфигурации можно указать файл со своими функциями
     if ($functionsFile = getConfig('functions')) {
         if (file_exists($functionsFile)) require_once $functionsFile;
     }
 
+//     pr($layout); // для отладки
+//     pr($mainFile); // для отладки
+
     // если файл есть
     if ($mainFile and file_exists($mainFile)) {
         // если у страницы есть ключ init-file, то подключаем указанный файл перед шаблоном
-        if (isset($pageData['init-file']) and $pageData['init-file'] and file_exists(DATA_DIR . $pageData['init-file'])) {
-            require_once DATA_DIR . $pageData['init-file'];
+        $initFile = $pageData['init-file'] ?? '';
+
+        if ($initFile) {
+            // если указан admin/, то меняем на каталог админ-панели
+            if (strpos($initFile, 'admin/') === 0)
+                $initFile = str_replace('admin/', ADMIN_DIR, $initFile);
+
+            // проверяем файл в каталоге DATA_DIR
+            // а потом от корня сайта
+            if (file_exists(DATA_DIR . $initFile))
+                require_once DATA_DIR . $initFile;
+            elseif (file_exists($initFile))
+                require_once $initFile;
         }
 
         // у страницы может быть параметр require[] где перечислены файлы для подключения
@@ -390,20 +420,22 @@ function getPageData(string $key, $default = '', $before = '', $after = '')
 
 /**
  * Получить параметры страницы с обработкой HTML - аналогично getPageData()
- * @param $key - ключ
- * @param $default - значение по умолчанию, если нет в данных страницы
- * @param $before - приставка к результату, если он есть
- * @param $after - корень к результату, если он есть
+ * @param string $key - ключ
+ * @param string $default - значение по умолчанию, если нет в данных страницы
+ * @param string $before - приставка к результату, если он есть
+ * @param string $after - корень к результату, если он есть
+ * @return string
  */
-function getPageDataHtml(string $key, $default = '', $before = '', $after = '')
+function getPageDataHtml(string $key, string $default = '', string $before = '', string $after = ''): string
 {
     return htmlspecialchars(getPageData($key, $default, $before, $after));
 }
 
 /**
  * Получить значение из файла конфигурации
- * @param $key - ключ
- * @param $default - значение по умолчанию
+ * @param string $key - ключ
+ * @param string|array $default - значение по умолчанию
+ * @return mixed|string
  */
 function getConfig(string $key, $default = '')
 {
@@ -413,7 +445,7 @@ function getConfig(string $key, $default = '')
     if (!$config) {
         $config = [];
 
-        // конфигурация в режие генерации
+        // конфигурация в режиме генерации
         if (defined('GENERATE_STATIC')) {
             if (file_exists(CONFIG_DIR . 'config-static.php')) {
                 $config = require CONFIG_DIR . 'config-static.php';
@@ -424,6 +456,20 @@ function getConfig(string $key, $default = '')
                 $config = require CONFIG_DIR . 'config.php';
             }
         }
+
+        // автоматически добавляем данные для текущего шаблона
+        $template = $config['template'] ?? 'default';
+        $layoutDir = $config['layoutDir'] ?? 'layout';
+
+        $config['templateDir'] = TEMPLATES_DIR . $template . DIRECTORY_SEPARATOR; // путь к шаблону
+        $config['templateURL'] = TEMPLATES_URL . $template . '/'; // URL шаблона
+        $config['templateLayoutDir'] = TEMPLATES_DIR . $template . DIRECTORY_SEPARATOR . $layoutDir . DIRECTORY_SEPARATOR; // каталог layout
+
+        // URL assets зависит от режима работы Albireo
+        if (defined('GENERATE_STATIC'))
+            $config['assetsUrl'] = $config['assets'] . '/';
+        else
+            $config['assetsUrl'] = TEMPLATES_URL . $template . '/' . $config['assets'] . '/';
     }
 
     return $config[$key] ?? $default;
@@ -440,7 +486,8 @@ function matchUrlPage()
     $currentUrl = getVal('currentUrl'); // текущий адрес
     $pagesInfo = getVal('pagesInfo'); // все страницы
 
-    $result = '';
+    $result = ''; // результат
+
     foreach ($pagesInfo as $file => $page) {
         // вначале проверяем метод
         $method = $page['method'] ?? 'GET'; // по умолчанию это GET
@@ -481,7 +528,7 @@ function matchUrlPage()
     // сохраним и данные этой страницы
     setVal('pageData', $pagesInfo[$result] ?? []);
 
-    return $result; // результат
+    return $result;
 }
 
 /**
@@ -554,46 +601,6 @@ function getCurrentUrl()
 }
 
 /**
- * Считать данные из репозитория
- * Результат сохраняется в хранилище в ключе «gitInfo»
- * $pagesInfo = getVal('pagesInfo');
- */
-function readGitParams()
-{
-    //https://api.github.com/repos/ichinya/seo_book/git/refs/tags
-
-    $cache = getCache('gitinfo.txt');
-    // смотрим кэш, если есть, отдаем из него
-    if ($cache) {
-        setVal('gitInfo', $cache); // сохраняем массив в хранилище
-        return; // и выходим
-    }
-
-    $url = "https://api.github.com/repos/ichinya/seo_book/git/refs/tags";
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_USERAGENT, "test");
-    $r = curl_exec($ch);
-    curl_close($ch);
-
-    $response_array = json_decode($r, true);
-    $ref = end($response_array);
-
-    $tag = str_replace('refs/tags/', '', $ref['ref']);
-
-    $gitInfo['tag'] = $tag;
-    $gitInfo['url'] = 'https://github.com/Ichinya/seo_book';
-
-    // сохраняем массив глобально
-    setVal('gitInfo', $gitInfo);
-
-    // сохраняем данные в кэше — файл pagesinfo.txt
-    // данные серилизуем
-
-    setCache('gitinfo.txt', $gitInfo);
-}
-
-/**
  * Считать данные всех записей
  * Результат сохраняется в хранилище в ключе «pagesInfo»
  * $pagesInfo = getVal('pagesInfo');
@@ -601,7 +608,7 @@ function readGitParams()
 function readPages()
 {
     // смотрим кэш, если есть, отдаем из него
-    if ($cache = getCache('pagesinfo.txt')) {
+    if ($cache = getCachePagesInfo('pagesinfo')) {
         setVal('pagesInfo', $cache); // сохраняем массив в хранилище
         return; // и выходим
     }
@@ -611,7 +618,7 @@ function readPages()
 
     // получаем все php-файлы из указанных каталогов в конфигурации dirsForPages
     // каталоги DATA_DIR/pages и DATA_DIR/admin подключаются всегда
-    $addDirs = array_merge([DATA_DIR . 'pages', DATA_DIR . 'admin'], getConfig('dirsForPages', []));
+    $addDirs = array_merge([DATA_DIR . 'pages', ADMIN_DIR], getConfig('dirsForPages', []));
     $addFiles = _addFiles($addDirs);
 
     if ($addFiles) $allFiles = array_merge($allFiles, $addFiles);
@@ -710,9 +717,10 @@ function readPages()
     setVal('pagesInfo', $pagesInfo);
 
     // сохраняем данные в кэше — файл pagesinfo.txt
-    // данные серилизуем
+    $cache = Services\Services::getInstance()->get('Cache\Cache');
 
-    setCache('pagesinfo.txt', $pagesInfo);
+    // когда доступнен класс кэширования, сохраним
+    if ($cache !== null) $cache->set('pagesinfo', $pagesInfo);
 }
 
 /**
@@ -765,104 +773,79 @@ class PageSortedIterator extends SplHeap
 }
 
 /**
- * Записать данные в файловый кэш
- * @param $file - файл (имя относительно каталога CACHE_DIR)
- * @param $data - произвольные данный
- **/
-function setCache(string $file, $data)
-{
-    file_put_contents(CACHE_DIR . $file, serialize($data));
-}
-
-
-/**
- * Получить данные из кэша
- * Кэш устаревает когда были изменения в каталоге DATA_DIR (albireo-data/*)
- * @param $file - имя файла в каталоге кэша
+ * Получить данные страниц из кэша
+ * Кэш устаревает когда были изменения в каталоге DATA_DIR (albireo-data/*) и ADMIN_DIR
+ * @param $key - имя файла в кэше без расширения
  */
-function getCache(string $file)
+function getCachePagesInfo(string $key)
 {
     // если в конфигурации ключ noCache = true, то кэш отключаем (режим отладки)
     if (getConfig('noCache', false)) return false;
 
-    if (file_exists(CACHE_DIR . $file)) {
-        // проверим не устарел ли кэш
+    // формируем объект кэша - он настраивается в конфигурации
+    // используем контейнер, поскольку класс Cache\Cache нам нужен в единственном экземпляре
+    $cache = Services\Services::getInstance()->get('Cache\Cache');
 
-        // имя файла snapshot формируем динамически с привязкой к файлу кэша
-        $snapshotFN = 'snapshot' . crc32($file) . '.txt';
+    // не доступнен класс кэширования
+    if ($cache === null) return false;
 
-        // смотрим когда было последнее обращение к этому snapshot
-        // он хранится в файле lastXXX.txt
-        // если текущая дата отличается от времени в last больше чем на cacheTimeL1 секунд,
-        // то проверим snapshot как обычно
-        // если разница меньше, то считаем, что кэш не устарел и отдаём его без проверки snapshot
-        // время указывается в конфигурации сайта в ключе cacheTimeL1 в секундах
-        // это позволяет уменьшить количество обращений к диску при большом количестве http-запросов
+    // файла кэша вообще нет, выходим
+    if (!$cache->has($key)) return false;
 
-        // время по умолчанию 10 секунд
-        $cacheTimeL1 = (int)getConfig('cacheTimeL1', 10);
+    // проверим не устарел ли кэш
 
-        // имя файла last формируем динамически с привязкой к файлу кэша
-        $lastFN = 'last' . crc32($file) . '.txt';
+    // смотрим когда было последнее обращение к этому snapshot
+    // он хранится в файле lastXXX.txt
+    // если текущая дата отличается от времени в last больше чем на cacheTimeL1 секунд,
+    // то проверим snapshot как обычно
+    // если разница меньше, то считаем, что кэш не устарел и отдаём его без проверки snapshot
+    // время указывается в конфигурации сайта в ключе cacheTimeL1 в секундах
+    // это позволяет уменьшить количество обращений к диску при большом количестве http-запросов
+
+    // время по умолчанию 10 секунд
+    $cacheTimeL1 = (int) getConfig('cacheTimeL1', 10);
+
+    // имя файла last формируем динамически с привязкой к файлу кэша
+    $lastFN = 'last' . crc32($key);
+
+    if ($cacheTimeL1 > 0)
+        $lastOld = $cache->get($lastFN, 0);
+    else
         $lastOld = 0; // здесь будет время из этого файла
 
-        if ($cacheTimeL1 > 0 and file_exists(CACHE_DIR . $lastFN)) {
-            // загрузили содержимое
-            $lastOld = file_get_contents(CACHE_DIR . $lastFN);
+    if (time() - $lastOld > $cacheTimeL1) {
+        // кэш snapshot возможно устарел, требуется проверка
 
-            // взяли время в last-файле
-            // обратная серилизация с @подавлением ошибок
-            $lastOld = @unserialize($lastOld);
+        // смотрим «снимок» каталогов, включая DATA_DIR, ADMIN_DIR и свои каталоги
+        // это позволяет отслеживать все изменения
+        $addDirs = array_merge([DATA_DIR], [ADMIN_DIR], getConfig('dirsForPages', []));
+        $snapshot = getSnapshot($addDirs); // текущий «снимок»
+
+        // сравниваем старый (из кэша) и новый «снимки»
+
+        // получаем CRC32 полином
+        $snapshot = crc32($snapshot);
+
+        // старый берём из кэша
+        // имя файла snapshot формируем динамически с привязкой к файлу кэша
+        $snapshotFN = 'snapshot' . crc32($key);
+        $snapshotOld = $cache->get($snapshotFN, 0);
+
+        // обновляем время построения текущего «снимка»
+        $cache->set($lastFN, time());
+
+        // если они не равны, то кэш невалидный
+        if ($snapshot != $snapshotOld) {
+            // сохраняем в кэше новый
+            $cache->set($snapshotFN, $snapshot);
+
+            // кэш невалидный, выходим
+            return false;
         }
-
-        if (time() - $lastOld > $cacheTimeL1) {
-            // кэш snapshot возможно устарел, требуется проверка
-
-            // смотрим «снимок» каталогов, включая DATA_DIR
-            // это позволяет отслеживать все изменения
-            $addDirs = array_merge([DATA_DIR], getConfig('dirsForPages', []));
-            $snapshot = getSnapshot($addDirs); // текущий «снимок»
-
-            // сравниваем старый (из кэша) и новый «снимки»
-
-            // получаем CRC32 полином
-            $snapshot = crc32($snapshot);
-
-            // старый берём из файла кэша
-            if (file_exists(CACHE_DIR . $snapshotFN)) {
-                // загрузили содержимое
-                $snapshotOld = file_get_contents(CACHE_DIR . $snapshotFN);
-
-                // обратная серилизация с @подавлением ошибок
-                $snapshotOld = @unserialize($snapshotOld);
-            } else {
-                $snapshotOld = 0;
-            }
-
-            // обновляем время построения текущего «снимка»
-            setCache($lastFN, time());
-
-            // если они не равны, то кэш невалидный
-            if ($snapshot != $snapshotOld) {
-                // сохраняем в кэше новый
-                setCache($snapshotFN, $snapshot);
-
-                // кэш невалидный, выходим
-                return false;
-            }
-        }
-
-        // если всё, ок, то отдаём кэш из файла
-        $content = file_get_contents(CACHE_DIR . $file); // загрузили содержимое
-
-        // обратная серилизация с @подавлением ошибок
-        $content = @unserialize($content);
-
-        return $content ?: false;
-    } else {
-        // файла кэша вообще нет
-        return false;
     }
+
+    // если всё, ок, то отдаём кэш из файла
+    return $cache->get($key, false);
 }
 
 /**
@@ -1098,19 +1081,26 @@ spl_autoload_register(function ($class) {
     // формируем имя файла
     $fn0 = $path . DIRECTORY_SEPARATOR . $file;
 
+    // если путь класс начинается с «admin\», то меняем его на каталог админки
+    if (strpos($fn0, 'admin' . DIRECTORY_SEPARATOR) === 0)
+        $fn0 = str_replace('admin' . DIRECTORY_SEPARATOR, ADMIN_N . DIRECTORY_SEPARATOR, $fn0);
+
     // добавляем базовый путь DATA_DIR и SYS_DIR
     $fn1 = DATA_DIR . $fn0; // путь от albireo-data/
     $fn2 = SYS_DIR . 'psr4' . DIRECTORY_SEPARATOR . $fn0; // путь от albireo/psr4/
+    $fn3 = BASE_DIR . $fn0; // путь от корня
 
     // для теста, если интересно что в итоге получается
     // pr($class); // admin\modules\options\mvc\Controller
     // pr($fn0);   // admin\modules\options\mvc\Controller.php
     // pr($fn1);   // albireo\my\albireo-data\admin\modules\options\mvc\Controller.php
     // pr($fn2);   // albireo\my\albireo\psr4\admin\modules\options\mvc\Controller.php
+    // pr($fn3);   // albireo\my\albireo\psr4\admin\modules\options\mvc\Controller.php
 
     // проверка на существование файлов и подключение
     if (file_exists($fn1)) require $fn1;
     elseif (file_exists($fn2)) require $fn2;
+    elseif (file_exists($fn3)) require $fn3;
     else {
         // проверка в classmap
         // это может быть как файл, так и каталог (равен namespace)
