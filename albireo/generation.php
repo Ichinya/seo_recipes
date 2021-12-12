@@ -4,9 +4,8 @@
  */
 
 echo "\nALBIREO FRAMEWORK\n=================\n";
-
+ 
 require_once SYS_DIR . 'lib/functions.php';
-require_once SYS_DIR . 'lib/html_helpers.php';
 
 // выходной каталог
 $staticDir = getConfig('staticDir');
@@ -65,7 +64,7 @@ foreach (getVal('pagesInfo') as $file => $pageData) {
     setVal('pageData', $pageData);
     setVal('pageFile', $file);
 
-    // поскольку текущего URL не существует, то имитируем на основе SITE_URL
+    // поскольку текущего URL не существует, то иммитируем на основе SITE_URL
     setVal('currentUrl', [
         'method' => 'GET',
         'url' => $fileOut,
@@ -74,7 +73,7 @@ foreach (getVal('pagesInfo') as $file => $pageData) {
 
     // ловим вывод страницы
     ob_start();
-    echo pageOut();
+    pageOut();
     $content = ob_get_contents(); // забрали результат
 
     if (ob_get_length()) ob_end_clean(); // очистили буфер
@@ -89,16 +88,17 @@ foreach (getVal('pagesInfo') as $file => $pageData) {
 // возможно указана настройка в которой хранятся имена каталогов для копирования после генераци
 if ($afterCopy = getConfig('afterCopy', [])) {
     echo "\n";
-
-    // перебираем их
-    foreach ($afterCopy as $dir) {
+    
+    // перебираем их 
+    foreach ($afterCopy as $src => $dest) {
         // если исходный каталог действительно существует
-        if (file_exists(BASE_DIR . $dir)) {
-            echo 'Copy dir: ' . $dir . "\n"; // вывод в консоли
-            copyDir(BASE_DIR . $dir, $staticDir . $dir); // копируем каталог
+        if (file_exists(BASE_DIR . $src)) {
+            echo 'Copy dir: ' . $src . "\n"; // вывод в консоли
+
+            copyDir(BASE_DIR . $src, $staticDir . $dest); // копируем каталог
         }
     }
-
+    
     echo "\n";
 }
 

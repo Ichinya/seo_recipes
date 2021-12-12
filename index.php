@@ -18,7 +18,7 @@ if (!defined('SITE_PROTOCOL')) {
     unset($protocol);
 }
 
-// опоеделяем http-хост
+// определяем http-хост
 if (!defined('SITE_HOST')) {
     $host = rtrim($_SERVER['HTTP_HOST'] . str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']), '/');
     define('SITE_HOST', $host);
@@ -32,9 +32,15 @@ if (!defined('CACHE_DIR')) define('CACHE_DIR', SYS_DIR . 'cache' . DIRECTORY_SEP
 if (!defined('DATA_DIR')) define('DATA_DIR', BASE_DIR . 'albireo-data' . DIRECTORY_SEPARATOR);
 if (!defined('DATA_URL')) define('DATA_URL', SITE_URL . 'albireo-data/');
 if (!defined('CONFIG_DIR')) define('CONFIG_DIR', DATA_DIR . 'config' . DIRECTORY_SEPARATOR);
-if (!defined('LAYOUT_DIR')) define('LAYOUT_DIR', DATA_DIR . 'layout' . DIRECTORY_SEPARATOR);
 if (!defined('SNIPPETS_DIR')) define('SNIPPETS_DIR', DATA_DIR . 'snippets' . DIRECTORY_SEPARATOR);
+
 if (!defined('STATIC_EXT')) define('STATIC_EXT', '');
+if (!defined('TEMPLATES_DIR')) define('TEMPLATES_DIR', BASE_DIR . 'albireo-templates' . DIRECTORY_SEPARATOR);
+if (!defined('TEMPLATES_URL')) define('TEMPLATES_URL', SITE_URL . 'albireo-templates/');
+
+if (!defined('ADMIN_N')) define('ADMIN_N', 'albireo-admin');
+if (!defined('ADMIN_DIR')) define('ADMIN_DIR', BASE_DIR . ADMIN_N . DIRECTORY_SEPARATOR);
+if (!defined('ADMIN_URL')) define('ADMIN_URL', SITE_URL . ADMIN_N . '/');
 
 // в зависимости от режима, подключаем разные файлы
 if (defined('GENERATE_STATIC'))
