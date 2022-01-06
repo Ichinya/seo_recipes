@@ -12,16 +12,17 @@
 define('ALBIREO_TIME_START', microtime(true));
 
 
-function img($filename, $alt = null)
+function img($filename, $alt = null): string
 {
     $slug = getVal('pageData')['slug'];
     $file = getConfig('uploadsDir') . "$slug/$filename";
+    if (!file_exists(str_replace(SITE_URL, BASE_DIR, $file)))
+        return '';
     $alt = $alt ?? $filename;
-    $img = "<img src=\"$file\" alt='$alt' />";
-    return $img;
+    return "<img src=\"$file\" alt='$alt' />";
 }
 
-function a($slug, $anchor = null)
+function a($slug, $anchor = null): string
 {
     $pagesInfo = getVal('pagesInfo');
 
@@ -39,6 +40,5 @@ function a($slug, $anchor = null)
     $anchor = $anchor ?? $title ?? $slug;
     $title = $title ?? $anchor ?? '';
 
-    $a = '<a href="' . $url . '" title="' . $title . '" target="_blank">' . $anchor . '</a>';
-    return $a;
+    return '<a href="' . $url . '" title="' . $title . '" target="_blank">' . $anchor . '</a>';
 }

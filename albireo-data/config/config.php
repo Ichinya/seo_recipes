@@ -7,6 +7,8 @@
 
 return [
 
+    'uploadsDir' => SITE_URL . 'uploads/',
+
     // шаблон сайта
     'template' => 'seo', // имя (каталог) шаблона внутри albireo-templates
 
