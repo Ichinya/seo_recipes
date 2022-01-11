@@ -285,8 +285,8 @@ function pageOut()
         if (file_exists($functionsFile)) require_once $functionsFile;
     }
 
-//     pr($layout); // для отладки
-//     pr($mainFile); // для отладки
+    // pr($layout); // для отладки
+    // pr($mainFile); // для отладки
 
     // если файл есть
     if ($mainFile and file_exists($mainFile)) {
@@ -521,10 +521,10 @@ function matchUrlPage()
 
     // если ничего не найдено, отдаём файл 404-страницы
     if (!$result and file_exists(DATA_DIR . '404.php')) {
-        $result =  DATA_DIR . '404.php';
+        $result = DATA_DIR . '404.php';
         setVal('is404', true); // сохранем отметку, что это 404-страница
     }
-    
+
     // сохраним в хранилище имя файла
     setVal('pageFile', $result);
 
@@ -720,7 +720,7 @@ function readPages()
     setVal('pagesInfo', $pagesInfo);
 
     // сохраняем данные в кэше — файл pagesinfo.txt
-    $cache = Services\Services::getInstance()->get('Cache\Cache');
+    $cache = Services\Services::getInstance()->get(Cache\Cache::class);
 
     // когда доступнен класс кэширования, сохраним
     if ($cache !== null) $cache->set('pagesinfo', $pagesInfo);
@@ -787,7 +787,7 @@ function getCachePagesInfo(string $key)
 
     // формируем объект кэша - он настраивается в конфигурации
     // используем контейнер, поскольку класс Cache\Cache нам нужен в единственном экземпляре
-    $cache = Services\Services::getInstance()->get('Cache\Cache');
+    $cache = Services\Services::getInstance()->get(Cache\Cache::class);
 
     // не доступнен класс кэширования
     if ($cache === null) return false;
@@ -806,7 +806,7 @@ function getCachePagesInfo(string $key)
     // это позволяет уменьшить количество обращений к диску при большом количестве http-запросов
 
     // время по умолчанию 10 секунд
-    $cacheTimeL1 = (int) getConfig('cacheTimeL1', 10);
+    $cacheTimeL1 = (int)getConfig('cacheTimeL1', 10);
 
     // имя файла last формируем динамически с привязкой к файлу кэша
     $lastFN = 'last' . crc32($key);
@@ -858,7 +858,6 @@ function getCachePagesInfo(string $key)
  */
 function getSnapshot(array $dirs)
 {
-
     $snapshot = '';
 
     foreach ($dirs as $dir) {
