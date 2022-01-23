@@ -157,7 +157,7 @@ function getConfigFile(string $file, $key = '')
  *
  * @param string $key — искомый ключ
  * @param string $format — html-формат вывода [key] и [val]. Если = false, то отдаётся массив данных
- * @param $pageData — данные страницы. Если false, то получаем автоматом из текущей
+ * @param array $pageData — данные страницы. Если false, то получаем автоматом из текущей
  * @return array
  */
 function getKeysPageData(string $key = 'meta', string $format = '<meta property="[key]" content="[val]">', $pageData = false)
@@ -901,11 +901,11 @@ function setVal(string $key, $value)
 
 /**
  * хранилище данных
- * @param если $set = true, то это запись данных в хранилище
- * @param если $set = false, то получение данных из хранилища
- * @param $key - ключ
+ * @param bool $set = true, то это запись данных в хранилище, если $set = false, то получение данных из хранилища
+ * @param string $key - ключ
  * @param $value - значение для записи
  * @param $default - дефолтное значение, если ключ не определён
+ * @return mixed|void
  */
 function storage(bool $set, string $key, $value, $default)
 {
@@ -920,25 +920,52 @@ function storage(bool $set, string $key, $value, $default)
 /**
  * Преобразуем текст тэгов PRE и CODE в html-сущности
  * @param $text - входящий текст
- * @param $mode - режим замены 1 - <PRE> и <CODE>, 2 - только <PRE>, 3 - только <CODE>
+ * @param $mode - режим замены 1 - <PRE> и <CODE>, 2 - только <CODE>
  */
-function protectHTMLCode(string $text, $mode = '1')
+function protectHTMLCode(string $text, string $mode = '1')
 {
-    if ($mode == '1' or $mode == '2') {
+    if ($mode == '1') {
+        $text = preg_replace_callback('!(<pre><code.*?>)(.*?)(</code></pre>)!is', '_protect_pre', $text);
+        $text = preg_replace_callback('!(<pre.*?>)(.*?)(</pre>)!is', '_protect_pre', $text);
+        $text = preg_replace_callback('!(<code.*?>)(.*?)(</code>)!is', '_protect_pre', $text);
+
+        $text = preg_replace_callback('!@html_base64@(.*?)@/html_base64@!is', function ($m) {
+            return base64_decode($m[1]);
+        }, $text);
+
+        /*
+        // старый вариант — только <pre>
         $text = preg_replace_callback('!(<pre.*?>)(.*?)(</pre>)!is', function ($m) {
             $t = htmlspecialchars($m[2]); // в html-сущности
             $t = str_replace('&amp;', '&', $t); // амперсанд нужно вернуть назад, чтобы иметь возможность его использовать в тексте
             return $m[1] . $t . $m[3];
         }, $text);
+        */
     }
 
-    if ($mode == '1' or $mode == '3') {
+    if ($mode == '2') {
         $text = preg_replace_callback('!(<code.*?>)(.*?)(</code>)!is', function ($m) {
             $t = htmlspecialchars($m[2]);
             $t = str_replace('&amp;', '&', $t);
             return $m[1] . $t . $m[3];
         }, $text);
     }
+
+    return $text;
+}
+
+/**
+ * Callback-функция к protectHTMLCode, где происходит замена html-символов
+ * @param $matches - входящая регулярка
+ */
+function _protect_pre($matches)
+{
+    $text = $matches[2]; // получили нужную часть текста
+    $text = htmlspecialchars($matches[2]); // преобразовали в html-сущности
+    $text = str_replace('&amp;', '&', $text); // амперсанд вернуть назад, чтобы иметь возможность его использовать в тексте
+
+    // закинули в base64
+    $text = '@html_base64@' . base64_encode($matches[1] . $text . $matches[3]) . '@/html_base64@';
 
     return $text;
 }
@@ -967,11 +994,11 @@ function createHtaccess()
 
 /**
  * Функция для отладки из MaxSite CMS
- * @param $var - переменная для вывода
- * @param $html - обработать как HTML
- * @param $echo - вывод в браузер
+ * @param mixed $var - переменная для вывода
+ * @param bool $html - обработать как HTML
+ * @param bool $echo - вывод в браузер
  */
-function pr($var, $html = true, $echo = true)
+function pr($var, bool $html = true, bool $echo = true)
 {
     if (!$echo)
         ob_start();
