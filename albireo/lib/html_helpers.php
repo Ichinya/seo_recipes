@@ -9,7 +9,8 @@
  * Узнать затраченное время:
  * $time = number_format(microtime(true) - ALBIREO_TIME_START, 6) . 'sec';
  */
-define('ALBIREO_TIME_START', microtime(true));
+if (!defined('ALBIREO_TIME_START'))
+    define('ALBIREO_TIME_START', microtime(true));
 
 
 function img($filename, $alt = null): string
