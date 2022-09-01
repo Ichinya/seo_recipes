@@ -22,8 +22,11 @@ if (typeof data?.value?.surround != "undefined") {
     <SiteBar/>
     <main class="lg:pl-[19.5rem]">
       <article class="prose max-w-3xl mx-auto pt-10 xl:max-w-none xl:ml-0 xl:mr-[15.5rem] xl:pr-16">
-        <ContentDoc/>
-
+        <ContentDoc>
+          <template #not-found>
+            <h1>Данный документ не найден</h1>
+          </template>
+        </ContentDoc>
         <!-- PrevNext Component -->
         <PrevNext :prev="prev" :next="next"/>
       </article>
