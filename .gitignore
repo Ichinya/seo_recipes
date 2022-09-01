@@ -1,5 +1,8 @@
-.idea
-/albireo/cache/*.txt
-/albireo-admin
-/.htaccess
-/dev.php
+node_modules
+*.log*
+.nuxt
+.nitro
+.cache
+.output
+.env
+/.idea/
