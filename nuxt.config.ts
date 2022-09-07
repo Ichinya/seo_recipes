@@ -7,7 +7,7 @@ export default defineNuxtConfig({
         // Generate images to `/_nuxt/image/file.png`
         staticFilename: '[publicPath]/images/[name]-[hash][ext]',
     },
-    modules: ['@nuxt/content', '@nuxtjs/tailwindcss', '@nuxt/image-edge',],
+    modules: ['@nuxt/content', '@nuxtjs/tailwindcss', '@nuxt/image-edge', '@nuxtjs/yandex-metrika'],
     content: {
         navigation: {
             fields: ['icon']
@@ -27,4 +27,13 @@ export default defineNuxtConfig({
     tailwindcss: {
         cssPath: '~/assets/css/main.css',
     },
+    publicRuntimeConfig: {
+        yandexMetrika: {
+            id: 90252793,
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true
+        }
+    }
 })

@@ -1,9 +1,10 @@
 <template>
   <footer class="text-sm leading-6 mt-16">
     <div class="pt-10 pb-28 border-t border-slate-200 sm:flex justify-between text-slate-500 dark:border-slate-200/5">
-      <div class="mb-6 sm:mb-0 sm:flex"><p>Copyright © <!-- -->2022<!-- --> Tailwind Labs Inc.</p>
+      <div class="mb-6 sm:mb-0 sm:flex">
+        <p>Copyright © <!-- -->{{ (new Date).getFullYear() }}<!-- --> SEO Рецепты.</p>
         <p class="sm:ml-4 sm:pl-4 sm:border-l sm:border-slate-200 dark:sm:border-slate-200/5"><a
-            class="hover:text-slate-900 dark:hover:text-slate-400" href="/brand/">Trademark Policy</a></p></div>
+            class="hover:text-slate-900 dark:hover:text-slate-400" href="/">Главная</a></p></div>
       <div class="flex space-x-10 text-slate-400 dark:text-slate-500"><a
           href="https://github.com/tailwindlabs/tailwindcss"
           class="hover:text-slate-500 dark:hover:text-slate-400"><span class="sr-only">GitHub</span>

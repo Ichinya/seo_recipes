@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+const contentQuery = queryContent()
+let article = await contentQuery.findOne()
+</script>
 <template>
   <div
       class="sticky top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 lg:z-50 lg:border-b lg:border-slate-900/10 dark:border-slate-50/[0.06] bg-white/95 supports-backdrop-blur:bg-white/60 dark:bg-transparent">
@@ -6,7 +10,7 @@
         <div class="relative flex items-center">
           <a class="mr-3 flex-none w-[2.0625rem] overflow-hidden md:w-auto" href="/">
             <span class="sr-only">Домашняя страница SEO Book</span>
-            <span class="font-semibold">SEO Book</span>
+            <span class="font-semibold">SEO Рецепты</span>
           </a>
           <div class="relative">
             <span
@@ -15,11 +19,19 @@
               v 0.9.5
             </span>
           </div>
+          <div class="relative mx-4">
+            <span><NuxtLink :to="article._path" class="hover:text-sky-500 dark:hover:text-sky-400">Статьи</NuxtLink></span>
+          </div>
           <div class="relative hidden lg:flex items-center ml-auto">
             <nav class="text-sm leading-6 font-semibold text-slate-700 dark:text-slate-200">
               <ul class="flex space-x-8">
                 <li>
-                  <a class="hover:text-sky-500 dark:hover:text-sky-400" href="https://ichiblog.ru/">Блог</a>
+                  <NuxtLink :to="article._path" class="hover:text-sky-500 dark:hover:text-sky-400">Статьи</NuxtLink>
+                </li>
+                <li>
+                  <nuxt-link to="https://ichiblog.ru/" class="hover:text-sky-500 dark:hover:text-sky-400" :external="true" target="_blank">
+                    Блог
+                  </nuxt-link>
                 </li>
               </ul>
             </nav>
