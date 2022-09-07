@@ -10,11 +10,6 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@antfu/utils@^0.5.2":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@antfu/utils/-/utils-0.5.2.tgz#8c2d931ff927be0ebe740169874a3d4004ab414b"
-  integrity sha512-CQkeV+oJxUazwjlHD0/3ZD08QWKuGQkhnrKo3e6ly5pd48VUpXbb77q0xMU4+vc2CkJnDS02Eq/M9ugyX20XZA==
-
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.18.6":
   version "7.18.6"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.18.6.tgz#3b25d38c89600baa2dcc219edfa88a74eb2c427a"
@@ -205,7 +200,7 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.16.4", "@babel/parser@^7.18.10", "@babel/parser@^7.18.13", "@babel/parser@^7.19.0":
+"@babel/parser@^7.16.4", "@babel/parser@^7.18.10", "@babel/parser@^7.19.0":
   version "7.19.0"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.19.0.tgz#497fcafb1d5b61376959c1c338745ef0577aa02c"
   integrity sha512-74bEXKX2h+8rrfQUfsBfuZZHzsEs6Eql4pqy/T4Nn6Y9wNPggQOqD6z6pn5Bl8ZfysKouFZT/UXEH94ummEeQw==
@@ -486,7 +481,7 @@
   optionalDependencies:
     ipx "^0.9.11"
 
-"@nuxt/kit@3.0.0-rc.9", "@nuxt/kit@^3.0.0-rc.3", "@nuxt/kit@^3.0.0-rc.5", "@nuxt/kit@^3.0.0-rc.8", "@nuxt/kit@^3.0.0-rc.9":
+"@nuxt/kit@3.0.0-rc.9", "@nuxt/kit@^3.0.0-rc.3", "@nuxt/kit@^3.0.0-rc.5", "@nuxt/kit@^3.0.0-rc.9":
   version "3.0.0-rc.9"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.0.0-rc.9.tgz#05d9721a7b7bf8538cd6f501ed0692cf0171bc2f"
   integrity sha512-Y+db0iw/1pKiLMEG7L/6HCq8O9xsbVJT/ksePY1Q8o3fV40Q9gCWI0YumCIzVdBiAFFEOCNASsxmGj7kPSdpCA==
@@ -951,29 +946,6 @@
   version "0.7.9"
   resolved "https://registry.yarnpkg.com/@vueuse/head/-/head-0.7.9.tgz#888ab87667ab6dbe6edba10d176fa91c1b0ec021"
   integrity sha512-5wnRiH2XIUSLLXJDLDDTcpvAg5QXgTIVZl46AU7to/T91KHsdBLHSE4WhRO7kP0jbkAhlxnx64E29cQtwBrMjg==
-
-"@vueuse/schema-org-vite@1.1.0-beta.1":
-  version "1.1.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@vueuse/schema-org-vite/-/schema-org-vite-1.1.0-beta.1.tgz#81d0b228ce9a74694e609f35db47df3d03f3131b"
-  integrity sha512-G2ZbGe++y3/DsRHMNEwBFpI85WYMmR2mqhIJNzr7smsH2YobaJfv8akE56VKBfo48PQueqekEcH4ne9EeiEAhg==
-  dependencies:
-    "@vueuse/schema-org" "1.1.0-beta.1"
-    schema-dts "^1.1.0"
-
-"@vueuse/schema-org@1.1.0-beta.1":
-  version "1.1.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@vueuse/schema-org/-/schema-org-1.1.0-beta.1.tgz#702a8c9073ce9fbdf9f7961245b341778b473f58"
-  integrity sha512-qR+vWJwlxUv3Q3O/0XSZfYs5BnyYO2+JtP0x0eHI2e8g0/NQLxdnMqITrR7ylySRAEkRzwe63mT8RiMx4IunIg==
-  dependencies:
-    "@rollup/pluginutils" "^4.2.1"
-    magic-string "^0.26.2"
-    mlly "^0.5.14"
-    pathe "^0.3.5"
-    pkg-types "^0.3.4"
-    schema-dts "^1.1.0"
-    schema-org-graph-js "0.5.1"
-    unplugin "^0.9.4"
-    unplugin-ast "^0.5.5"
 
 abbrev@1:
   version "1.1.1"
@@ -4349,17 +4321,6 @@ nuxi@3.0.0-rc.9:
   optionalDependencies:
     fsevents "~2.3.2"
 
-nuxt-schema-org@^1.1.0-beta.1:
-  version "1.1.0-beta.1"
-  resolved "https://registry.yarnpkg.com/nuxt-schema-org/-/nuxt-schema-org-1.1.0-beta.1.tgz#6b3ac6ab6945ae851bb8718622e107a0cd36a864"
-  integrity sha512-zS0VCVEK5jlUZfR8ZV6YhBIi5DkB0ayziDmyEiSOPBIAXy9ZJIN5rLOp36mrqsLQFztyiKanuI0T8ASkRVr6gw==
-  dependencies:
-    "@nuxt/kit" "^3.0.0-rc.8"
-    "@vueuse/schema-org" "1.1.0-beta.1"
-    "@vueuse/schema-org-vite" "1.1.0-beta.1"
-    pathe "^0.3.5"
-    schema-org-graph-js "0.5.1"
-
 nuxt@^3.0.0-rc.9:
   version "3.0.0-rc.9"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-3.0.0-rc.9.tgz#a3bcceaffcab917b09238e3db45e73b646516ed4"
@@ -5388,22 +5349,6 @@ safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-schema-dts@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/schema-dts/-/schema-dts-1.1.0.tgz#33227971076ef1daa33e56a3127a8aae030e81c9"
-  integrity sha512-vdmbs/5ycj4zyKpZIDqTcy+IZi4s7c38RVAYuDmRi7zgxUT8wRWPMLzg0jr7FjdVunYu9yZ00F3+XcZTTFcTOQ==
-
-schema-org-graph-js@0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/schema-org-graph-js/-/schema-org-graph-js-0.5.1.tgz#ab5a2f21bca6cbda9feaa2ea22b41f383616d6be"
-  integrity sha512-Fo3MWh2JMe8OFIgsKJlJGxEcV0PIbf7LgoX12Gb8gzPoVPAOHD4R7Lz1OSnSpsPVopUQNwlRGqvx19llfgjVDg==
-  dependencies:
-    defu "^6.1.0"
-    ohash "^0.1.5"
-    schema-dts "^1.1.0"
-    ufo "^0.8.5"
-    utility-types "^3.10.0"
-
 schema-utils@^3.0.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-3.1.1.tgz#bc74c4b6b6995c1d88f76a8b77bea7219e0c8281"
@@ -6088,17 +6033,6 @@ universalify@^2.0.0:
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-2.0.0.tgz#75a4984efedc4b08975c5aeb73f530d02df25717"
   integrity sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
 
-unplugin-ast@^0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/unplugin-ast/-/unplugin-ast-0.5.5.tgz#5c3da1d4d8d96d247394f30b16e9305cc92d2a47"
-  integrity sha512-L2HnV2xNWjnkOm8bAja2yLIQPZCla3PVN0mTGdYdSTj4sl9KwAVaRheYbCZpHuBNqvpHJPhxw7KR0/y6hs2YVQ==
-  dependencies:
-    "@antfu/utils" "^0.5.2"
-    "@babel/parser" "^7.18.13"
-    "@rollup/pluginutils" "^4.2.1"
-    magic-string "^0.26.2"
-    unplugin "^0.9.4"
-
 unplugin@^0.6.1:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/unplugin/-/unplugin-0.6.3.tgz#b8721e2b163a410a7efed726e6a0fc6fbadf975a"
@@ -6108,7 +6042,7 @@ unplugin@^0.6.1:
     webpack-sources "^3.2.3"
     webpack-virtual-modules "^0.4.3"
 
-unplugin@^0.9.0, unplugin@^0.9.2, unplugin@^0.9.4, unplugin@^0.9.5:
+unplugin@^0.9.0, unplugin@^0.9.2, unplugin@^0.9.5:
   version "0.9.5"
   resolved "https://registry.yarnpkg.com/unplugin/-/unplugin-0.9.5.tgz#2e546c044e0631e699ebd6fb521eeb7bbcb8899f"
   integrity sha512-luraheyfxwtvkvHpsOvMNv7IjLdORTWKZp0gWYNHGLi2ImON3iIZOj464qEyyEwLA/EMt12fC415HW9zRpOfTg==
@@ -6179,11 +6113,6 @@ util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
-
-utility-types@^3.10.0:
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/utility-types/-/utility-types-3.10.0.tgz#ea4148f9a741015f05ed74fd615e1d20e6bed82b"
-  integrity sha512-O11mqxmi7wMKCo6HKFt5AhO4BwY3VV68YU07tgxfz8zJTIxr4BpsezN49Ffwy9j3ZpwwJp4fkRwjRzq3uWE6Rg==
 
 uvu@^0.5.0:
   version "0.5.6"
