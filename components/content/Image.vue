@@ -1,23 +1,21 @@
-<script setup>
+<template>
+  <div class="">
+    <img :src="srcImage" :alt="alt ?? src"/>
+  </div>
+</template>
+<script>
 import {useRoute} from "nuxt/app";
 
 const { path } = useRoute();
 
-defineProps({
-  src: {
-    type: String,
-    required: true,
-  },
-  alt: {
-    type: String,
-    default: ''
-  },
-})
+export default {
+  props: ['alt', 'src'],
+  computed: {
+    srcImage() {
+      return `/images${path}/${this.src}`
+    }
+  }
+}
 
 
 </script>
-<template>
-  <div class="">
-    <nuxt-img :src="`/${path}/${src}`" :alt="alt ?? src"/>
-  </div>
-</template>
