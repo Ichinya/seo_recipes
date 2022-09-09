@@ -1,21 +1,15 @@
 <template>
-  <div class="">
+  <span class="">
     <img :src="srcImage" :alt="alt ?? src"/>
-  </div>
+  </span>
 </template>
-<script>
-import {useRoute} from "nuxt/app";
-
-const { path } = useRoute();
-
+<script lang="ts">
 export default {
   props: ['alt', 'src'],
   computed: {
     srcImage() {
-      return `/images${path}/${this.src}`
+      return `/images${this.$route.path}/${this.src}`
     }
   }
 }
-
-
 </script>
