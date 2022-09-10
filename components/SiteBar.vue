@@ -1,6 +1,3 @@
-<script setup>
-import MenuLinkList from "./MenuLinkList";
-import MenuLinkOne from "./MenuLinkOne";</script>
 <template>
   <div class="hidden lg:block fixed z-20 inset-0 top-[3.8125rem] right-auto w-[19.5rem] pb-10 px-8 overflow-y-auto">
     <nav id="nav" class="lg:text-sm lg:leading-6 relative">
@@ -30,6 +27,3 @@ import MenuLinkOne from "./MenuLinkOne";</script>
     </nav>
   </div>
 </template>
-<script>
-
-</script>

@@ -12,15 +12,11 @@ let article = await contentQuery.findOne()
             <span class="sr-only">Домашняя страница SEO Book</span>
             <span class="font-semibold">SEO Рецепты</span>
           </a>
-          <div class="relative">
-            <span
-                class="text-xs leading-5 font-semibold bg-slate-400/10 rounded-full py-1 px-3 flex items-center space-x-2 hover:bg-slate-400/20 dark:highlight-white/5"
-                id="headlessui-menu-button-1">
-              v 0.9.5
-            </span>
-          </div>
+          <git-hub/>
           <div class="relative mx-4">
-            <span><NuxtLink :to="article._path" class="hover:text-sky-500 dark:hover:text-sky-400">Статьи</NuxtLink></span>
+            <span>
+              <NuxtLink :to="article._path" class="hover:text-sky-500 dark:hover:text-sky-400">Статьи</NuxtLink>
+            </span>
           </div>
           <div class="relative hidden lg:flex items-center ml-auto">
             <nav class="text-sm leading-6 font-semibold text-slate-700 dark:text-slate-200">
