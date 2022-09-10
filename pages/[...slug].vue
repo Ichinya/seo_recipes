@@ -1,9 +1,16 @@
-<script setup>
+<script setup lang="ts">
 const { path } = useRoute();
 
 const { data } = await useAsyncData(`content-${path}`, async () => {
-  let article = queryContent().where({ _path: path }).findOne();
-  let surround = queryContent().only(["_path", "title", "description"]).sort({ date: 1 }).findSurround(path);
+  let article = await queryContent().where({ _path: path }).findOne();
+
+  let surround = await queryContent().only(["_path", "title", "description"]).sort({ date: 1 }).findSurround(path)
+      .then((msg) => {
+        return msg
+      })
+      .catch((e) => {
+        return null
+      });
 
   return {
     article: await article,
@@ -32,7 +39,7 @@ if (typeof data?.value?.surround != "undefined") {
       </article>
 
       <SiteFooter/>
-      <Toc :links="data?.article?.body?.toc?.links"/>
+      <Toc v-if="data" :links="data?.article?.body?.toc?.links"/>
     </main>
   </div>
 </template>

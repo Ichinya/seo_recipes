@@ -8,7 +8,7 @@ export default defineNuxtConfig({
         // Generate images to `/_nuxt/image/file.png`
         staticFilename: '[publicPath]/images/[name]-[hash][ext]',
     },
-    modules: ['@nuxt/content', '@nuxtjs/tailwindcss', '@nuxt/image-edge',],
+    modules: ['@nuxt/content', '@nuxtjs/tailwindcss',],
     content: {
         navigation: {
             fields: ['icon']
@@ -28,4 +28,9 @@ export default defineNuxtConfig({
     tailwindcss: {
         cssPath: '~/assets/css/main.css',
     },
+    nitro: {
+        prerender: {
+            routes: ['/sitemap.xml']
+        }
+    }
 })
