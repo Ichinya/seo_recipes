@@ -28,4 +28,9 @@ export default defineNuxtConfig({
     tailwindcss: {
         cssPath: '~/assets/css/main.css',
     },
+    nitro: {
+        prerender: {
+            routes: ['/sitemap.xml']
+        }
+    }
 })

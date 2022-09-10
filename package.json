@@ -12,6 +12,7 @@
     "@nuxtjs/tailwindcss": "^5.3.2",
     "@tailwindcss/typography": "^0.5.7",
     "nuxt": "^3.0.0-rc.9",
-    "shiki-es": "^0.1.2"
+    "shiki-es": "^0.1.2",
+    "sitemap": "^7.1.1"
   }
 }

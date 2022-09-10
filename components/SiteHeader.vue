@@ -64,7 +64,7 @@ let article = await contentQuery.findOne()
                   </svg>
                 </span>
               </button>
-              <a href="https://github.com/ichinya/seo_book" target="_blank"
+              <a href="https://github.com/ichinya/seo_recipes" target="_blank"
                  class="ml-6 block text-slate-400 hover:text-slate-500 dark:hover:text-slate-300">
                 <span class="sr-only">Tailwind CSS на GitHub</span>
                 <svg viewBox="0 0 16 16" class="w-5 h-5" fill="currentColor" aria-hidden="true">

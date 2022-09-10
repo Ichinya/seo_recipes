@@ -39,7 +39,7 @@ if (typeof data?.value?.surround != "undefined") {
       </article>
 
       <SiteFooter/>
-      <Toc v-if="data.article.body.toc.links" :links="data?.article?.body?.toc?.links"/>
+      <Toc v-if="data" :links="data?.article?.body?.toc?.links"/>
     </main>
   </div>
 </template>
