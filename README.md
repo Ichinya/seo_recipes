@@ -4,24 +4,46 @@
 
 ## Стек технологий:
 
-* NuxtJS + Nuxt Content
+* VuePress 2 + vuepress-theme-hope
 * Vue 3 + TypeScript
-* Tailwind CSS
 
 ## Сайт
 
 Сайт расположена на сайте [seo-recipes.ru](https://seo-recipes.ru)
 
-Статьи находятся в папке `content`, картинки находятся в папке `assets/images`
+Статьи находятся в папке `docs`
 
-Для отображения картинки в статье используется код:
-
-```vue
-:image{src=1.png alt="Пример"}
-```
-
-картинка будет браться из папки `assets/images/папка/статьи`
+Для отображения картинки в статье используется код `![Картинка](./1.png)`, картинка будет браться из папки со статьёй
 
 ## Редактирование
 
 Правки может предлагать любой пользователь github.com
+
+Пример описания
+
+```yaml
+title: Название страницы
+description: Краткое описание страницы
+icon: solid fa-font-awesome # иконка, берется с сайта https://fontawesome.com/ и убирается первая часть fa. В примере fa-solid fa-font-awesome
+author:
+  - name: Имя
+    url: Ссылка на сайт или соцсеть
+category: yandex
+tag: [ yandex, ads ]
+```
+
+Пример страцицы
+
+```md
+---
+Описание страницы
+---
+
+# Сама страница
+
+Используется разметка markdown
+
+```
+
+Про разметку можно посмотреть на
+сайте [vuepress](https://vuepress-theme-hope.gitee.io/v2/ru/cookbook/markdown/demo.html)

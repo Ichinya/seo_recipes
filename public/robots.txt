@@ -1,1 +1,4 @@
+User-agent: *
+Allow: /
+
 Sitemap: https://seo-recipes.ru/sitemap.xml
