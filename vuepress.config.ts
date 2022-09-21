@@ -37,7 +37,7 @@ export default defineUserConfig({
     theme: hopeTheme({
         docsRepo: 'https://github.com/Ichinya/seo_recipes',
         docsBranch: 'main',
-        docsDir: 'content', // fix изменить на docs
+        docsDir: 'docs',
         lastUpdated: true,
         contributors: true,
         navbar: [
