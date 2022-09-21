@@ -7,7 +7,8 @@ import { SitemapOptions } from "vuepress-plugin-sitemap2";
 export default defineUserConfig({
     lang: 'ru-RU',
     title: 'SEO Рецепты',
-    description: 'Про',
+    description: 'Различные рецепты, советы, инструкции по сео и настройки сайтов',
+    shouldPrefetch: false,
     head: [
         ['script', {}, `
             <!-- /Yandex.Metrika counter -->

@@ -2,6 +2,8 @@
 title: РСЯ в Mediawiki
 description: Вставляем код РСЯ в шаблон Vector Mediawiki
 icon: brands fa-yandex-international
+category: Mediawiki
+tag: [Mediawiki, Яндекс РСЯ]
 ---
 
 # РСЯ в Mediawiki

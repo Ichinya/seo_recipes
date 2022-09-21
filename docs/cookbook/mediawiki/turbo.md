@@ -2,6 +2,8 @@
 title: Яндекс.Турбо в Mediawiki
 description: Используем ЯндексТурбо в Mediawiki
 icon: brands fa-yandex
+category: Mediawiki
+tag: [Mediawiki, Яндекс Турбо]
 ---
 
 # Яндекс.Турбо в Mediawiki

@@ -2,8 +2,8 @@
 title: Sape.RTB в Laravel
 description: Используем код SAPE в Laravel
 icon: solid fa-s
-category: laravel
-tag: [laravel, sape]
+category: Laravel
+tag: [Laravel, Sape, Sape RTB]
 ---
 
 # Sape.RTB в Laravel

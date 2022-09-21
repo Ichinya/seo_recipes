@@ -2,6 +2,8 @@
 title: Sape в Mediawiki
 description: Вставляем код Sape в шаблон Vector Mediawiki
 icon: solid fa-s
+category: Mediawiki
+tag: [Mediawiki, Sape]
 ---
 
 # Sape в Mediawiki
