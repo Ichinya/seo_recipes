@@ -2,6 +2,8 @@
 title:  Tag Manager
 description: Google Tag Manager
 icon: brands fa-google
+category: Google
+tag: [Google, Tag Manager]
 ---
 
 # Google Tag Manager

@@ -1,6 +1,8 @@
 ---
 title: nuxt content metrika
 icon: brands fa-yandex
+category: Nuxt Content
+tag: [Nuxt Content, VueJS, Метрика]
 ---
 # Код
 
