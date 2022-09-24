@@ -1,5 +1,4 @@
 import { defineUserConfig } from 'vuepress'
-import { prismjsPlugin } from '@vuepress/plugin-prismjs'
 import { hopeTheme } from "vuepress-theme-hope";
 import { searchPlugin } from "@vuepress/plugin-search";
 import { SitemapOptions } from "vuepress-plugin-sitemap2";
@@ -52,6 +51,7 @@ export default defineUserConfig({
             '/info/': "structure",
             '/': [""],
         },
+        sidebarSorter: ["readme", "order", "title"],
         iconAssets: "fontawesome",
         backToTop: true,
         footer: '<!-- Yandex.Metrika counter --><noscript><div><img src="https://mc.yandex.ru/watch/90252793" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->',
@@ -70,6 +70,8 @@ export default defineUserConfig({
             },
             sitemap: <SitemapOptions>{ hostname: 'https://seo-recipes.ru/', canonicalTag: true },
             pwa: { favicon: '/favicon.ico', manifest: { lang: 'ru-RU' } },
+            components: ["YouTube"],
+            prismjs: true,
         }
     }),
     locales: {
@@ -81,9 +83,6 @@ export default defineUserConfig({
     },
     public: `./public`,
     plugins: [
-        prismjsPlugin({
-            preloadLanguages: ['php', 'js', 'ts']
-        }),
         searchPlugin(),
     ],
 })
