@@ -1,6 +1,7 @@
 ---
 title: Санкции
 description: Санкции от поисковых систем
+icon: solid fa-poo
 index: false
 ---
 
