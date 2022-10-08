@@ -1,6 +1,6 @@
 import { defineUserConfig } from 'vuepress'
 import { hopeTheme } from "vuepress-theme-hope";
-import { searchPlugin } from "@vuepress/plugin-search";
+import { docsearchPlugin } from "@vuepress/plugin-docsearch";
 import { SitemapOptions } from "vuepress-plugin-sitemap2";
 
 export default defineUserConfig({
@@ -83,6 +83,12 @@ export default defineUserConfig({
     },
     public: `./public`,
     plugins: [
-        searchPlugin(),
+        docsearchPlugin({
+            appId: "YOUR_APP_ID",
+            apiKey: "YOUR_API_KEY",
+            indexName: 'SEO Рецепты',
+            placeholder: 'Поиск',
+            searchParameters: '',
+        }),
     ],
 })
