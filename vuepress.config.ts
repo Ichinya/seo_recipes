@@ -84,8 +84,8 @@ export default defineUserConfig({
     public: `./public`,
     plugins: [
         docsearchPlugin({
-            appId: "YOUR_APP_ID",
-            apiKey: "YOUR_API_KEY",
+            appId: "EPFACH9FP9",
+            apiKey: "eb56401bbaebe5aa0682146afda54980",
             indexName: 'SEO Рецепты',
             placeholder: 'Поиск',
             searchParameters: '',
