@@ -1,7 +1,7 @@
-import { defineUserConfig } from 'vuepress'
-import { hopeTheme } from "vuepress-theme-hope";
-import { docsearchPlugin } from "@vuepress/plugin-docsearch";
-import { SitemapOptions } from "vuepress-plugin-sitemap2";
+import {defineUserConfig} from 'vuepress'
+import {hopeTheme} from "vuepress-theme-hope";
+// import {docsearchPlugin} from "@vuepress/plugin-docsearch";
+import {SitemapOptions} from "vuepress-plugin-sitemap2";
 
 export default defineUserConfig({
     lang: 'ru-RU',
@@ -42,9 +42,9 @@ export default defineUserConfig({
         navbar: [
             '/info/',
             '/cookbook/',
-            { text: 'Список тегов', link: '/tag/', icon: 'solid fa-tags' },
-            { text: 'Список категорий', link: '/category/', icon: 'solid fa-folder-tree' },
-            { text: 'Блог', link: 'https://ichiblog.ru' }
+            {text: 'Список тегов', link: '/tag/', icon: 'solid fa-tags'},
+            {text: 'Список категорий', link: '/category/', icon: 'solid fa-folder-tree'},
+            {text: 'Блог', link: 'https://ichiblog.ru'}
         ],
         sidebar: {
             '/cookbook/': "structure",
@@ -60,7 +60,7 @@ export default defineUserConfig({
         pageInfo: [
             "Author", "PageView", "Date", "Category", "Tag", "ReadingTime", "Word"
         ],
-        author: { name: 'Ичи', url: 'https://ichiblog.ru' },
+        author: {name: 'Ичи', url: 'https://ichiblog.ru'},
         plugins: {
             blog: true,
             git: {
@@ -68,9 +68,9 @@ export default defineUserConfig({
                 updatedTime: true,
                 contributors: true,
             },
-            sitemap: <SitemapOptions>{ hostname: 'https://seo-recipes.ru/', canonicalTag: true },
-            pwa: { favicon: '/favicon.ico', manifest: { lang: 'ru-RU' } },
-            components: ["YouTube"],
+            sitemap: <SitemapOptions>{hostname: 'https://seo-recipes.ru/', canonicalTag: true},
+            pwa: {favicon: '/favicon.ico', manifest: {lang: 'ru-RU'}},
+            components: {components: ["YouTube"]},
             prismjs: true,
         }
     }),
@@ -83,12 +83,12 @@ export default defineUserConfig({
     },
     public: `./public`,
     plugins: [
-        docsearchPlugin({
-            appId: "EPFACH9FP9",
-            apiKey: "eb56401bbaebe5aa0682146afda54980",
-            indexName: 'SEO Рецепты',
-            placeholder: 'Поиск',
-            searchParameters: '',
-        }),
+        // docsearchPlugin({
+        //     appId: "EPFACH9FP9",
+        //     apiKey: "eb56401bbaebe5aa0682146afda54980",
+        //     indexName: 'seo-recipes',
+        //     placeholder: 'Поиск',
+        //     searchParameters: '',
+        // }),
     ],
 })
