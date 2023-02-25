@@ -47,3 +47,6 @@ tag: [ yandex, ads ]
 
 Про разметку можно посмотреть на
 сайте [vuepress](https://vuepress-theme-hope.gitee.io/v2/ru/cookbook/markdown/demo.html)
+
+
+![Alt](https://repobeats.axiom.co/api/embed/24c6dac53289f0b53e67428753bc75c661cacae3.svg "Repobeats analytics image")
