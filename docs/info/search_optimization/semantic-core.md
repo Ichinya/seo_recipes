@@ -1,7 +1,7 @@
 ---
 title: Семантическое ядро
 description: Семантическое ядро
-icon: brands fa-searchengin
+icon: fa-brands fa-searchengin
 category: Семантическое ядро
 tag: [Семантическое ядро]
 ---

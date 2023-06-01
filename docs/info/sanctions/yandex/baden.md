@@ -1,5 +1,6 @@
 ---
 title: Документный фильтр Баден-Баден
+icon: fa-brands fa-yandex
 author:
 
 - name: DrMax.su

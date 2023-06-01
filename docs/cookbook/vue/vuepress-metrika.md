@@ -1,7 +1,7 @@
 ---
 title: Установка Яндекс.Метрики на VuePress
 description: Установка Яндекс.Метрики на VuePress
-icon: brands fa-yandex
+icon: fa-brands fa-yandex
 category: VuePress
 tag: [VuePress, VueJS, Метрика]
 ---

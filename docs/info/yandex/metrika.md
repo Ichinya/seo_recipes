@@ -1,7 +1,7 @@
 ---
 title: Яндекс Метрика
 description: Яндекс Метрика
-icon: brands fa-yandex
+icon: fa-brands fa-yandex
 category: Яндекс
 tag: [Яндекс, Метрика, Счетчики]
 ---

@@ -1,7 +1,7 @@
 ---
 title: Фото без авторских прав
 description: Что делать, если на сайте без разрешения используется ваша фотография?
-icon: regular fa-images
+icon: fa-solid fa-image
 category: Copyright
 tag: [Фото]
 ---

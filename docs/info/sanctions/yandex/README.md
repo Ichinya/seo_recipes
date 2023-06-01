@@ -1,6 +1,6 @@
 ---
 title: Санкции Яндекса
-icon: brands fa-yandex
+icon: fa-brands fa-yandex
 category: Яндекс
 tag: [Яндекс, Поисковые системы, Санкции поисковых систем]
 ---

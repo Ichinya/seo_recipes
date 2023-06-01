@@ -1,7 +1,7 @@
 ---
 title: Sitemap для Mediawiki
 description: Sitemap для Mediawiki
-icon: solid fa-sitemap
+icon: fa-solid fa-sitemap
 category: Mediawiki
 tag: [Mediawiki, Sitemap]
 ---

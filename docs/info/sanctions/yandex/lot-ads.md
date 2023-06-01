@@ -1,5 +1,6 @@
 ---
 title: Фильтр за за избыток рекламы
+icon: fa-brands fa-yandex
 author:
 - name: DrMax.su
   url: https://drmax.su/

@@ -1,5 +1,6 @@
 ---
 title: Фильтр Fred
+icon: fa-brands fa-google
 author:
 
 - name: DrMax.su

@@ -2,7 +2,7 @@
 title: Аналитика
 description: Аналитика сайта
 index: true
-icon: solid fa-chart-line
+icon: fa-solid fa-chart-line
 ---
 
 # Аналитика

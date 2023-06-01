@@ -1,5 +1,6 @@
 ---
 title: Фильтр Hummingbird (Колибри)
+icon: fa-brands fa-google
 author:
 
 - name: DrMax.su

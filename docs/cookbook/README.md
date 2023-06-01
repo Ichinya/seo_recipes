@@ -1,4 +1,4 @@
 ---
 title: Рецепты
-icon: solid fa-code
+icon: fa-solid fa-code
 ---

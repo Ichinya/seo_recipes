@@ -1,6 +1,6 @@
 ---
 title: Поисковая оптимизация
-icon: brands fa-searchengin
+icon: fa-brands fa-searchengin
 index: false
 collapsable: false
 ---

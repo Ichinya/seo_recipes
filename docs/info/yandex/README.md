@@ -1,7 +1,7 @@
 ---
 title: Яндекс
 description: Яндекс
-icon: brands fa-yandex-international
+icon: fa-brands fa-yandex-international
 index: false
 ---
 

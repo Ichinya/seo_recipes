@@ -1,7 +1,7 @@
 ---
 title: Sape.RTB в Mediawiki
 description: Вставляем код РСЯ в шаблон Vector Mediawiki
-icon: solid fa-s
+icon: fa-solid fa-s
 category: Mediawiki
 tag: [Mediawiki, Sape, Sape RTB]
 ---

@@ -1,7 +1,7 @@
 ---
 title: Плагин кэширования Breeze
 description: Плагин кэширования Breeze
-icon: solid fa-b
+icon: fa-solid fa-b
 category: Wordpress
 tag: [Wordpress, Breeze, Кэширование, Плагины]
 ---

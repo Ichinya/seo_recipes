@@ -1,7 +1,7 @@
 ---
 title: Авторские права
 index: false
-icon: regular fa-copyright
+icon: fa-solid fa-copyright
 ---
 
 # Авторские права

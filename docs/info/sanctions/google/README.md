@@ -1,6 +1,6 @@
 ---
 title: Санкции Google
-icon: brands fa-google
+icon: fa-brands fa-google
 author:
 
 - name: DrMax.su

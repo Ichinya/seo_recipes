@@ -1,5 +1,6 @@
 ---
 title: Ссылочный фильтр Минусинск
+icon: fa-brands fa-yandex
 author:
 
 - name: DrMax.su

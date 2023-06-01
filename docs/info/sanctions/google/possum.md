@@ -1,5 +1,6 @@
 ---
 title: Фильтр Possum
+icon: fa-brands fa-google
 author:
 
 - name: DrMax.su
