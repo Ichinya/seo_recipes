@@ -1,5 +1,6 @@
 ---
 title: Фильтр RankBrain
+icon: fa-brands fa-google
 author:
 
 - name: DrMax.su

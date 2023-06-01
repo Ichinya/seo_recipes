@@ -24,7 +24,7 @@
 ```yaml
 title: Название страницы
 description: Краткое описание страницы
-icon: solid fa-font-awesome # иконка, берется с сайта https://fontawesome.com/ и убирается первая часть fa. В примере fa-solid fa-font-awesome
+icon: fa-solid fa-font-awesome # иконка, берется с сайта https://fontawesome.com/ и убирается первая часть fa. В примере fa-solid fa-font-awesome
 author:
   - name: Имя
     url: Ссылка на сайт или соцсеть

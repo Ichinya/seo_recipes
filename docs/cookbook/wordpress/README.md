@@ -1,5 +1,5 @@
 ---
 title: Wordpress
 index: false
-icon: brands fa-wordpress
+icon: fa-brands fa-wordpress
 ---

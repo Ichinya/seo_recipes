@@ -1,6 +1,6 @@
 ---
 title: Гугл
-icon: brands fa-google
+icon: fa-brands fa-google
 index: false
 ---
 

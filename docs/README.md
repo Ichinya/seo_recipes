@@ -8,7 +8,7 @@ actions:
   link: https://sobe.ru/na/Z2j2k0L9X1J8
   Тип: primary
 
-icon: solid fa-house
+icon: fa-solid fa-house
 heroText: SEO Рецепты
 tagline: Различные рецепты, советы, инструкции по сео и настройки сайтов.
 

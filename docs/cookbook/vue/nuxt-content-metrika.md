@@ -1,6 +1,6 @@
 ---
 title: Установка Яндекс Метрики на Nuxt Content
-icon: brands fa-yandex
+icon: fa-brands fa-yandex
 category: Nuxt Content
 tag: [Nuxt Content, VueJS, Метрика]
 ---

@@ -1,5 +1,5 @@
 ---
 title: MediaWiki
 index: false
-icon: brands fa-wikipedia-w
+icon: fa-brands fa-wikipedia-w
 ---

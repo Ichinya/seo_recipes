@@ -1,5 +1,6 @@
 ---
 title: Фильтр за клик-джекинг
+icon: fa-brands fa-yandex
 author: 
 - name: DrMax.su
   url: https://drmax.su/

@@ -1,7 +1,7 @@
 ---
 title: YandexMetrika в Mediawiki
 description: Устнанавливаем счетчик Яндекс Метрики в шаблон Vector Mediawiki
-icon: brands fa-yandex
+icon: fa-brands fa-yandex
 category: Mediawiki
 tag: [Mediawiki, Метрика]
 ---

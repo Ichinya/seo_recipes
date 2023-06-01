@@ -1,5 +1,5 @@
 ---
 title: Laravel
 index: false
-icon: brands fa-laravel
+icon: fa-brands fa-laravel
 ---

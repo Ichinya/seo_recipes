@@ -1,7 +1,8 @@
 import {defineUserConfig} from 'vuepress'
 import {hopeTheme} from "vuepress-theme-hope";
-// import {docsearchPlugin} from "@vuepress/plugin-docsearch";
 import {SitemapOptions} from "vuepress-plugin-sitemap2";
+import {seoPlugin} from "vuepress-plugin-seo2";
+import {searchProPlugin} from "vuepress-plugin-search-pro";
 
 export default defineUserConfig({
     lang: 'ru-RU',
@@ -42,8 +43,9 @@ export default defineUserConfig({
         navbar: [
             '/info/',
             '/cookbook/',
-            {text: 'Список тегов', link: '/tag/', icon: 'solid fa-tags'},
-            {text: 'Список категорий', link: '/category/', icon: 'solid fa-folder-tree'},
+            {text: 'Список тегов', link: '/tag/', icon: 'fa-solid fa-tags'},
+            {text: 'Список категорий', link: '/category/', icon: 'fa-solid fa-folder-tree'},
+            {text: 'Таймлайн', link: '/timeline/', icon: 'fa-solid fa-timeline'},
             {text: 'Блог', link: 'https://ichiblog.ru'}
         ],
         sidebar: {
@@ -52,7 +54,8 @@ export default defineUserConfig({
             '/': [""],
         },
         sidebarSorter: ["readme", "order", "title"],
-        iconAssets: "fontawesome",
+        iconAssets: ["fontawesome", "fontawesome-with-brands"],
+        iconPrefix: "",
         backToTop: true,
         footer: '<!-- Yandex.Metrika counter --><noscript><div><img src="https://mc.yandex.ru/watch/90252793" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->',
         copyright: '',
@@ -72,6 +75,9 @@ export default defineUserConfig({
             pwa: {favicon: '/favicon.ico', manifest: {lang: 'ru-RU'}},
             components: {components: ["YouTube"]},
             prismjs: true,
+            seo: seoPlugin({
+                hostname: "https://seo-recipes.ru/"
+            }),
         }
     }),
     locales: {
@@ -83,12 +89,18 @@ export default defineUserConfig({
     },
     public: `./public`,
     plugins: [
-        // docsearchPlugin({
-        //     appId: "EPFACH9FP9",
-        //     apiKey: "eb56401bbaebe5aa0682146afda54980",
-        //     indexName: 'seo-recipes',
-        //     placeholder: 'Поиск',
-        //     searchParameters: '',
-        // }),
+        searchProPlugin({
+            indexContent: true,
+            customFields: [
+                {
+                    getter: (page) => page.frontmatter.category,
+                    formatter: "Категория: $content",
+                },
+                {
+                    getter: (page) => page.frontmatter.tag,
+                    formatter: "Тег: $content",
+                },
+            ],
+        }),
     ],
 })

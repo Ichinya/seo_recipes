@@ -1,7 +1,7 @@
 ---
 title: Поиск Яндекса с помощью YaTI
 description: Поиск Яндекса для программистов стал точнее
-icon: brands fa-connectdevelop
+icon: fa-brands fa-connectdevelop
 category: Яндекс
 tag: [Яндекс, Поиск]
 ---

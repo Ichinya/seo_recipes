@@ -1,7 +1,7 @@
 ---
 title: PageSpeed Insights
 description: PageSpeed Insights
-icon: brands fa-google
+icon: fa-brands fa-google
 category: Google
 tag: [Google, PageSpeed]
 ---

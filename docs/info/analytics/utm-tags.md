@@ -1,7 +1,7 @@
 ---
 title: UTM-метки
 description: UTM-метки
-icon: solid fa-chart-pie
+icon: fa-solid fa-chart-pie
 category: Аналитика
 tag: [Аналитика, UTM]
 ---

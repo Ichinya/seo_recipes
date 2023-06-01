@@ -1,5 +1,6 @@
 ---
 title: Фильтр Penguin
+icon: fa-brands fa-google
 author:
 
 - name: DrMax.su

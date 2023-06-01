@@ -1,5 +1,6 @@
 ---
 title: Как вывести сайт из-под фильтра Баден-Баден
+icon: fa-brands fa-yandex
 author:
 
 - name: One-Life-Story.Ru

@@ -1,5 +1,6 @@
 ---
 title: Фильтр за имитацию действий пользователей
+icon: fa-brands fa-yandex
 author: 
 - name: DrMax.su
   url: https://drmax.su/
