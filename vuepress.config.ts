@@ -102,5 +102,6 @@ export default defineUserConfig({
                 },
             ],
         }),
+        { src: '~/vercel.ts', mode: 'client' }
     ],
 })
