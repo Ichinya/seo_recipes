@@ -41,7 +41,7 @@ $footerIcons ['various_icon'] = [
         [height] => 31
     ],
     [
-        [src] => "http://evil.com/icon.png"
+        [src] => "https://evil.com/icon.png"
         [url] => "https://evil.com/"
         [alt] => "Сайт зла"
         [width] => 88
