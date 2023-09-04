@@ -1,7 +1,7 @@
 import { defineClientConfig } from '@vuepress/client'
 
 export default defineClientConfig({
-    enhance({ app, router, siteData }) {
+    enhance({router}) {
         router.beforeEach((to, from, next) => {
             if (to.name == '404') {
                 next('404');
