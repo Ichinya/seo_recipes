@@ -20,11 +20,11 @@
     "@vuepress/client": "2.0.0-beta.67",
     "vue": "^3.3.4",
     "vuepress": "2.0.0-beta.67",
-    "vuepress-plugin-components": "^2.0.0-beta.236",
-    "vuepress-plugin-search-pro": "^2.0.0-beta.236",
-    "vuepress-plugin-seo2": "^2.0.0-beta.236",
-    "vuepress-plugin-sitemap2": "^2.0.0-beta.236",
-    "vuepress-theme-hope": "^2.0.0-beta.236"
+    "vuepress-plugin-components": "^2.0.0-beta.237",
+    "vuepress-plugin-search-pro": "^2.0.0-beta.237",
+    "vuepress-plugin-seo2": "^2.0.0-beta.237",
+    "vuepress-plugin-sitemap2": "^2.0.0-beta.237",
+    "vuepress-theme-hope": "^2.0.0-beta.237"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
