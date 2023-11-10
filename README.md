@@ -10,7 +10,7 @@
 
 ![](https://api.checklyhq.com/v1/badges/checks/e8a689a0-3399-466e-b937-e9463398e651?style=for-the-badge&theme=dark&responseTime=true)
 
-[![Qodana](https://github.com/Ichinya/seo_recipes/actions/workflows/qodana_code_quality.yml/badge.svg)](https://github.com/Ichinya/seo_recipes/actions/workflows/qodana_code_quality.yml)
+[![Codecov](https://github.com/Ichinya/seo_recipes/actions/workflows/codecov.yml/badge.svg)](https://github.com/Ichinya/seo_recipes/actions/workflows/codecov.yml)
 ![](https://api.checklyhq.com/v1/badges/checks/e8a689a0-3399-466e-b937-e9463398e651?style=plastic&theme=default)
 
 Различные рецепты, советы, инструкции по сео и настройки сайтов.
