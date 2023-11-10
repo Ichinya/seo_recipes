@@ -59,7 +59,7 @@ private function buildSidebar() : array {
     foreach ( $portals as $name => $content ) {
 ```
 
-Чуть ниже находим *swith*, в который добавляем прямо перед @case ‘SEARCH’@:
+Чуть ниже находим *swith*, в который добавляем прямо перед `case 'SEARCH'`:
 
 ```php
 case 'SAPE':

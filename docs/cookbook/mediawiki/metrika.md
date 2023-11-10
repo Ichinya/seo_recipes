@@ -12,7 +12,7 @@ tag: [Mediawiki, Метрика]
 
 Для начала нужен сам код счётчика. В нашем случае заходим в настройки Метрики и копируем код счетчика (нужно выбрать галочку — код в одну строку)
 
-Далее находим в файле @mediawiki\skins\Vector\includes\VectorTemplate.php@ (там, где редактировался [код Сапы](/mediawiki/sape))
+Далее находим в файле `mediawiki\skins\Vector\includes\VectorTemplate.php` (там, где редактировался [код Сапы](/mediawiki/sape))
 
 ```php
 $footerIcons = $this->getFooterIcons( 'icononly' );

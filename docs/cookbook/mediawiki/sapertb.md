@@ -10,9 +10,9 @@ tag: [Mediawiki, Sape, Sape RTB]
 
 Делаем на подобии [РСЯ в Mediawiki](/mediawiki/yandex_partner).
 
-Мы будем работать с двумя файлами: *VectorTemplate.php* и *SkinVector.php*. Оба файла находятся в папке @сайт.рф/skins/Vector/includes@
+Мы будем работать с двумя файлами: *VectorTemplate.php* и *SkinVector.php*. Оба файла находятся в папке `сайт.рф/skins/Vector/includes`
 
-Для начала работаем с файлом *VectorTemplate.php*. Находим в нем функцию @private function getSkinData()@. В самом начале функции присеваются переменные. Нас тут интересует переменная $out, после её инициализации нужно добавить код:
+Для начала работаем с файлом *VectorTemplate.php*. Находим в нем функцию `private function getSkinData()`. В самом начале функции присеваются переменные. Нас тут интересует переменная $out, после её инициализации нужно добавить код:
 
 ```php{11,12,13,14}
 private function getSkinData() : array {
@@ -39,9 +39,9 @@ $commonSkinData = $skin->getTemplateData() + [
 
 Вторым аргументом вписываем саму строчку. Тут просто - код берем из РСЯ. Сейчас он у всех общих, так что можно просто скопировать. С первым файлом закончили.
 
-Приступаем ко второму файлу *SkinVector.php*. Тут немного сложнее. В файле нужно найти функцию @public function getTemplateData()@, работать будем в данном методе.
+Приступаем ко второму файлу *SkinVector.php*. Тут немного сложнее. В файле нужно найти функцию `public function getTemplateData()`, работать будем в данном методе.
 
-Сразу в самом начале создаем переменную c кодом вызова, например, @yandeRTBHTML = 'КОД ВЫЗОВА РЕКЛАМЫ'; @. А теперь немного модифицируем то, что выдает функция: @ 'html-body-content' => $yandeRTBHTML . $this->wrapHTML( $title, $out->mBodytext ); @. В итоге получается:
+Сразу в самом начале создаем переменную c кодом вызова, например, `yandeRTBHTML = 'КОД ВЫЗОВА РЕКЛАМЫ'; `. А теперь немного модифицируем то, что выдает функция: ` 'html-body-content' => $yandeRTBHTML . $this->wrapHTML( $title, $out->mBodytext ); `. В итоге получается:
 
 ```php{20,21,22,23,24,39}
     public function getTemplateData() {
