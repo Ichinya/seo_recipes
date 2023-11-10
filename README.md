@@ -1,5 +1,18 @@
 # SEO Рецепты
 
+![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
+![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+![Dependabot](https://img.shields.io/badge/dependabot-025E8C?style=for-the-badge&logo=dependabot&logoColor=white)
+
+![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+
+![](https://api.checklyhq.com/v1/badges/checks/e8a689a0-3399-466e-b937-e9463398e651?style=for-the-badge&theme=dark&responseTime=true)
+
+[![Qodana](https://github.com/Ichinya/seo_recipes/actions/workflows/qodana_code_quality.yml/badge.svg)](https://github.com/Ichinya/seo_recipes/actions/workflows/qodana_code_quality.yml)
+![](https://api.checklyhq.com/v1/badges/checks/e8a689a0-3399-466e-b937-e9463398e651?style=plastic&theme=default)
+
 Различные рецепты, советы, инструкции по сео и настройки сайтов.
 
 ## Стек технологий:
