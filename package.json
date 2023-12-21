@@ -18,13 +18,13 @@
   },
   "devDependencies": {
     "@vuepress/client": "2.0.0-rc.0",
-    "vue": "^3.3.10",
+    "vue": "^3.3.13",
     "vuepress": "2.0.0-rc.0",
-    "vuepress-plugin-components": "^2.0.0-rc.2",
-    "vuepress-plugin-search-pro": "^2.0.0-rc.2",
-    "vuepress-plugin-seo2": "^2.0.0-rc.2",
-    "vuepress-plugin-sitemap2": "^2.0.0-rc.2",
-    "vuepress-theme-hope": "^2.0.0-rc.2"
+    "vuepress-plugin-components": "^2.0.0-rc.5",
+    "vuepress-plugin-search-pro": "^2.0.0-rc.5",
+    "vuepress-plugin-seo2": "^2.0.0-rc.5",
+    "vuepress-plugin-sitemap2": "^2.0.0-rc.5",
+    "vuepress-theme-hope": "^2.0.0-rc.5"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
