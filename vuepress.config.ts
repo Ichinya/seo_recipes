@@ -57,8 +57,7 @@ export default defineUserConfig({
         iconAssets: ["fontawesome", "fontawesome-with-brands"],
         iconPrefix: "",
         backToTop: true,
-        footer: `<!-- Yandex.Metrika counter --><noscript><div><img src="https://mc.yandex.ru/watch/90252793" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
-                <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script><script defer src="/_vercel/speed-insights/script.js"></script>`,
+        footer: `<!-- Yandex.Metrika counter --><noscript><div><img src="https://mc.yandex.ru/watch/90252793" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->`,
         copyright: '',
         displayFooter: true,
         pageInfo: [
