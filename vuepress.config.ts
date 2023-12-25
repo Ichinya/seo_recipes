@@ -57,7 +57,8 @@ export default defineUserConfig({
         iconAssets: ["fontawesome", "fontawesome-with-brands"],
         iconPrefix: "",
         backToTop: true,
-        footer: '<!-- Yandex.Metrika counter --><noscript><div><img src="https://mc.yandex.ru/watch/90252793" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->',
+        footer: `<!-- Yandex.Metrika counter --><noscript><div><img src="https://mc.yandex.ru/watch/90252793" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+                <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script><script defer src="/_vercel/speed-insights/script.js"></script>`,
         copyright: '',
         displayFooter: true,
         pageInfo: [
@@ -73,7 +74,7 @@ export default defineUserConfig({
             },
             sitemap: <SitemapOptions>{hostname: 'https://seo-recipes.ru/', canonicalTag: true},
             pwa: {favicon: '/favicon.ico', manifest: {lang: 'ru-RU'}},
-            components: {components: ["YouTube"]},
+            components: {components: ["VidStack"]},
             prismjs: true,
             seo: seoPlugin({
                 hostname: "https://seo-recipes.ru/"
