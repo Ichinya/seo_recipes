@@ -73,7 +73,7 @@ export default defineUserConfig({
             },
             sitemap: <SitemapOptions>{hostname: 'https://seo-recipes.ru/', canonicalTag: true},
             pwa: {favicon: '/favicon.ico', manifest: {lang: 'ru-RU'}},
-            components: {components: ["VidStack"]},
+            components: {components: ["VidStack", "SiteInfo"]},
             prismjs: true,
             seo: seoPlugin({
                 hostname: "https://seo-recipes.ru/"

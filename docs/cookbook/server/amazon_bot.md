@@ -42,6 +42,8 @@ Deny from env=bad_bot
 
 В начале проверяем сайт без блокировки:
 
+<SiteInfo name="Мой блог" url="https://ichiblog.ru" preview="/preview_site/ichiblog.ru.png" />
+
 ```shell
 ichi@pc:$ curl -LI ichiblog.ru -A Amazonbot
 HTTP/1.1 200 OK
