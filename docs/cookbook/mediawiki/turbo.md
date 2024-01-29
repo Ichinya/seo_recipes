@@ -8,6 +8,8 @@ tag: [Mediawiki, Яндекс Турбо]
 
 # Яндекс.Турбо в Mediawiki
 
+<SiteInfo name="Sitemap и YandexTurbo для Mediawiki" url="https://ichiblog.ru/my-projects/yandex_turbo_for_mediawiki/" desc="Скрипт для формирования страниц, работает через api" preview="/preview_site/github.com_ichinya_yandex_turbo_for_mediawiki.png" repo="https://github.com/Ichinya/yandex_turbo_for_mediawiki" />
+
 Небольшое дополнение к движку MediaWiki, которая создает rss ленты. В основном, это нужно для добавления в ЯндексТурбо.
 
 Скачать можно с [GitHub](https://github.com/Ichinya/yandex_turbo_for_mediawiki)
