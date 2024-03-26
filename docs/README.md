@@ -5,7 +5,7 @@ home: true
 actions:
 
 - text: Поддержать проект 💡
-  link: https://sobe.ru/na/Z2j2k0L9X1J8
+  link: https://yoomoney.ru/fundraise/gpJtjQCridM.230427
   Тип: primary
 
 icon: fa-solid fa-house
