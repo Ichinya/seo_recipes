@@ -6,6 +6,8 @@ import {searchProPlugin, SearchProPluginOptions} from "vuepress-plugin-search-pr
 import viteBundler from "@vuepress/bundler-vite";
 import {googleAnalyticsPlugin} from '@vuepress/plugin-google-analytics';
 import {pwaPlugin} from '@vuepress/plugin-pwa';
+import {commentPlugin} from '@vuepress/plugin-comment';
+import {GiscusPluginOptions} from "@vuepress/plugin-comment/lib/node/options";
 
 const searchPluginOption = <SearchProPluginOptions>{
     indexContent: true,
@@ -111,6 +113,17 @@ export default defineUserConfig({
             id: 'G-YFXPYL3Y6H',
         }),
         pwaPlugin({favicon: '/favicon.ico', manifest: {lang: 'ru-RU'}}),
+        commentPlugin(<GiscusPluginOptions>{
+            provider: 'Giscus',
+            repoId: 'R_kgDOGHxn6A',
+            category: 'Комментарии',
+            categoryId: 'DIC_kwDOGHxn6M4CiifV',
+            repo: 'Ichinya/seo_recipes',
+            mapping: 'title',
+            strict: '0',
+            reactionsEnabled: '1',
+            inputPosition: 'top',
+        }),
         {src: '~/vercel.ts', mode: 'client'}
     ],
     bundler: viteBundler(),
