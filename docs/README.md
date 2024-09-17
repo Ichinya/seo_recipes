@@ -5,7 +5,7 @@ home: true
 actions:
 
 - text: Поддержать проект 💡
-  link: https://yoomoney.ru/fundraise/gpJtjQCridM.230427
+  link: https://donate.stream/ichi
   Тип: primary
 
 icon: fa-solid fa-house
