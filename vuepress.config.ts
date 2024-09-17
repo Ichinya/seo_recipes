@@ -1,8 +1,25 @@
 import {defineUserConfig} from 'vuepress'
 import {hopeTheme} from "vuepress-theme-hope";
-import {SitemapOptions} from "vuepress-plugin-sitemap2";
-import {seoPlugin} from "vuepress-plugin-seo2";
-import {searchProPlugin} from "vuepress-plugin-search-pro";
+import {sitemapPlugin} from '@vuepress/plugin-sitemap'
+import {seoPlugin} from '@vuepress/plugin-seo'
+import {searchProPlugin, SearchProPluginOptions} from "vuepress-plugin-search-pro";
+import viteBundler from "@vuepress/bundler-vite";
+import {googleAnalyticsPlugin} from '@vuepress/plugin-google-analytics';
+import {pwaPlugin} from '@vuepress/plugin-pwa';
+
+const searchPluginOption = <SearchProPluginOptions>{
+    indexContent: true,
+    customFields: [
+        {
+            getter: (page) => page.frontmatter.category,
+            formatter: "Категория: $content",
+        },
+        {
+            getter: (page) => page.frontmatter.tag,
+            formatter: "Тег: $content",
+        },
+    ],
+}
 
 export default defineUserConfig({
     lang: 'ru-RU',
@@ -35,6 +52,7 @@ export default defineUserConfig({
         `],
     ],
     theme: hopeTheme({
+        logo: 'https://vuejs.press/images/hero.png',
         docsRepo: 'https://github.com/Ichinya/seo_recipes',
         docsBranch: 'main',
         docsDir: 'docs',
@@ -71,8 +89,6 @@ export default defineUserConfig({
                 updatedTime: true,
                 contributors: true,
             },
-            sitemap: <SitemapOptions>{hostname: 'https://seo-recipes.ru/', canonicalTag: true},
-            pwa: {favicon: '/favicon.ico', manifest: {lang: 'ru-RU'}},
             components: {components: ["VidStack", "SiteInfo"]},
             prismjs: true,
             seo: seoPlugin({
@@ -89,19 +105,13 @@ export default defineUserConfig({
     },
     public: `./public`,
     plugins: [
-        searchProPlugin({
-            indexContent: true,
-            customFields: [
-                {
-                    getter: (page) => page.frontmatter.category,
-                    formatter: "Категория: $content",
-                },
-                {
-                    getter: (page) => page.frontmatter.tag,
-                    formatter: "Тег: $content",
-                },
-            ],
+        searchProPlugin(searchPluginOption),
+        sitemapPlugin({hostname: 'https://seo-recipes.ru/'}),
+        googleAnalyticsPlugin({
+            id: 'G-YFXPYL3Y6H',
         }),
-        { src: '~/vercel.ts', mode: 'client' }
+        pwaPlugin({favicon: '/favicon.ico', manifest: {lang: 'ru-RU'}}),
+        {src: '~/vercel.ts', mode: 'client'}
     ],
+    bundler: viteBundler(),
 })
