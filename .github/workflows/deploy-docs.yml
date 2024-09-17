@@ -31,7 +31,7 @@ jobs:
       - name: Install Deps
         run: |
           corepack enable
-          npm ci
+          npm ci --force
 
       - name: Build Docs
         env:
