@@ -20,6 +20,10 @@
 * VuePress 2 + vuepress-theme-hope
 * Vue 3 + TypeScript
 
+### Ошибки и общение
+* [GitHub](https://github.com/Ichinya/seo_recipes/issues) - для описания ошибок
+* [Discussions](https://github.com/Ichinya/seo_recipes/discussions) - для обсуждения 
+
 ## Сайт
 
 Сайт расположена на сайте [seo-recipes.ru](https://seo-recipes.ru)
