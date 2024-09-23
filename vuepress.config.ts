@@ -10,6 +10,7 @@ import {commentPlugin} from '@vuepress/plugin-comment';
 import {GiscusPluginOptions} from "@vuepress/plugin-comment/lib/node/options";
 import {socialSharePlugin} from 'vuepress-plugin-social-share'
 import type {SocialShareNetworkData} from 'vuepress-plugin-social-share'
+import {prismjsPlugin} from '@vuepress/plugin-prismjs'
 
 const searchPluginOption = <SearchProPluginOptions>{
     indexContent: true,
@@ -152,6 +153,12 @@ export default defineUserConfig({
             autoQuote: true,
             isPlain: false,
             extendsNetworks,
+        }),
+        prismjsPlugin({
+            themes: {
+                light: 'ghcolors',
+                dark: 'atom-dark',
+            }
         }),
         {src: '~/vercel.ts', mode: 'client'}
     ],
